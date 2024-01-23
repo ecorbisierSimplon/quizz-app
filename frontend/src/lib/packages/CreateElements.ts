@@ -1,13 +1,5 @@
-import type { Options } from './interface';
-import { hostname } from './variables';
-
-export type ElemOptions = {
-	url?: string;
-	h?: string;
-	texte?: string;
-	addElem?: HTMLElement;
-	method?: string;
-};
+import type { ElemOptions, Options } from './interface';
+// import { hostname } from './variables';
 
 export class DocumentCreate {
 	private className: string[];
@@ -70,6 +62,11 @@ export class DocumentCreate {
 	public span(options?: ElemOptions & Record<string, any>): HTMLSpanElement {
 		const span: HTMLSpanElement = this.createElement('span', options);
 		return span;
+	}
+
+	public i(options?: ElemOptions & Record<string, any>): HTMLElement {
+		const i: HTMLElement = this.createElement('i', options);
+		return i;
 	}
 
 	public title(options: ElemOptions & Record<string, any>): HTMLElement {
@@ -207,7 +204,7 @@ export class DocumentCreate {
 	}
 
 	public img(options: { src?: string; alt?: string; name?: string }): HTMLImageElement {
-		const { src = hostname, alt = '', name = '' } = options;
+		const { src = 'hostname', alt = '', name = '' } = options;
 		const img: HTMLImageElement = document.createElement('img');
 		img.src = src;
 		img.title = name;
