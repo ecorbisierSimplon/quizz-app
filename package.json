@@ -1,0 +1,19 @@
+{
+  "name": "quizz-app",
+  "version": "1.0.0",
+  "description": "create quizz-app with svelte and nest.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Steph4477/quizz-app.git"
+  },
+  "author": "eteigdembele, mohameddiaw, Sylvana7, Steph4477",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Steph4477/quizz-app/issues"
+  },
+  "homepage": "https://github.com/Steph4477/quizz-app#readme"
+}
