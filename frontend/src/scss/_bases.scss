@@ -1,0 +1,101 @@
+// Styles
+html {
+	font-size: $base-font-size;
+}
+
+@each $level in 1 through 6 {
+	h#{$level} {
+		font-size: calculate-font-size-mobil($level);
+		letter-spacing: calculate-letter-spacing-mobil($level);
+		@include gd-screen-min {
+			font-size: calculate-font-size($level);
+			letter-spacing: calculate-letter-spacing($level);
+		}
+	}
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background: $base-background;
+	background-image: radial-gradient(circle, hsl($color_p, 40%, 25%) 0%, $base-background 50%);
+	background-repeat: no-repeat;
+	min-height: 100vh;
+}
+
+header {
+	margin: 20px;
+
+	.header {
+		display: flex;
+		max-width: 800px;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		border: 5.5px solid #73778c;
+		border-radius: 15px;
+		padding: 15px;
+		margin: 0 auto;
+		.logo {
+			display: flex;
+			align-items: center;
+			margin: auto 30px;
+			@include gd-screen-min {
+				margin: auto 80px;
+			}
+			img {
+				width: 25vw;
+				min-width: 100px;
+				max-width: 200px;
+			}
+		}
+	}
+}
+a {
+	text-decoration: none;
+}
+.nav {
+	width: 48vw;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-right: 10px;
+	ul {
+		width: 170px;
+		list-style: none;
+		padding: 0;
+	}
+	li {
+		width: 100%;
+	}
+	a {
+		display: block;
+		color: hsl(0, 0%, 100%);
+		padding: 2px;
+		border-radius: 5px;
+		i {
+			&::before {
+				margin-right: 5px;
+				color: hsl(231, 69%, 91%);
+			}
+		}
+		&:hover {
+			background-color: hsl(231, 100%, 77%);
+		}
+	}
+}
+main {
+	margin: 2px auto;
+	max-width: 900px;
+	position: relative;
+	display: block;
+	form {
+		max-width: 80%;
+		display: block;
+		margin: 0 auto;
+		input {
+			width: 100px;
+		}
+	}
+}
