@@ -9,18 +9,19 @@
 		GenerateHtml.nav([
 			{ name: 'home', icon: 'fa fa-home', url: `${hostname}/` },
 			{ name: 'Choice quizz', icon: 'fa fa-home', url: `${hostname}/quizz` },
-			{ name: 'Create quizz', icon: 'fa fa-home', url: `${hostname}/create_quizz` }
+			{ name: 'Create quizz', icon: 'fa fa-home', url: `${hostname}/create_quizz` },
+			{ name: 'Login', icon: 'fa fa-home', url: `${hostname}/login` },
+			{ name: 'Logout', icon: 'fa fa-home', url: `${hostname}/logout` }
 		]);
 		// GenerateHtml.search(hostname);
 	});
 </script>
 
 <header>
-	logo
 	<div class="header">
 		<div id="logo" class="logo"></div>
+		<nav class="nav"></nav>
 	</div>
-	<nav class="nav"></nav>
 </header>
 <div id="formSearch"></div>
 
