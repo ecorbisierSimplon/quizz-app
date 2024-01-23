@@ -14,11 +14,13 @@ export class QuizService {
   ) {}
 
   async getQuestions(): Promise<Question[]> {
-    return this.questionRepository.find({ relations: ['answers'] });
+    const questions = await this.questionRepository.find({ relations: ['answers'] });
+    return questions;
   }
 
   async getQuestion(id: number): Promise<Question> {
-    return this.questionRepository.findOne(id, { relations: ['answers'] });
+    const question = await this.questionRepository.findOne( {where:{id},relations: ['answers'] });
+    return question;
   }
 
   async createQuestion(question: Question): Promise<Question> {
@@ -26,8 +28,9 @@ export class QuizService {
   }
 
   async createAnswer(questionId: number, answer: Answer): Promise<Answer> {
-    const question = await this.questionRepository.findOne(questionId);
-    answer.question = question;
-    return this.answerRepository.save(answer);
+    const question = await this.questionRepository.findOne({where:{id:questionId}});
+    const newAnswer = await this.answerRepository.create({ ...answer, question });
+    await this.answerRepository.save(newAnswer);
+    return newAnswer;
   }
 }
