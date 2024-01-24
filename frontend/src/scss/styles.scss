@@ -1,5 +1,6 @@
 @import '../../node_modules/normalize-scss/sass/normalize';
 @include normalize();
+@import '../../node_modules/bootstrap/scss/bootstrap';
 @import 'variables';
 @import 'functions';
 @import 'mixins';

@@ -90,6 +90,18 @@ main {
 	max-width: 900px;
 	position: relative;
 	display: block;
+	h1 {
+		&:first-child {
+			text-shadow: 0 0 4px #edf0ff;
+			color: #000;
+			font-weight: bold;
+			width: fit-content;
+			display: block;
+			margin: 0 auto 20px;
+			background-color: hsla(231, 43%, 65%, 0.534);
+		}
+	}
+
 	form {
 		max-width: 80%;
 		display: block;
