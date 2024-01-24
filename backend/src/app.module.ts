@@ -6,6 +6,7 @@ import { QuizModule } from './quiz.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
+
       host: 'db',
       port: 5432,
       username: 'root',
@@ -17,4 +18,6 @@ import { QuizModule } from './quiz.module';
     QuizModule,
   ],
 })
+
 export class AppModule {}
+
