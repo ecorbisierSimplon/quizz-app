@@ -90,12 +90,28 @@ main {
 	max-width: 900px;
 	position: relative;
 	display: block;
+	h1 {
+		&:first-child {
+			text-shadow: 0 0 4px #edf0ff;
+			color: #000;
+			font-weight: bold;
+			width: fit-content;
+			display: block;
+			margin: 50px auto;
+			background-color: hsla(231, 43%, 65%, 0.534);
+			box-shadow: 0 0 10px 9px rgba(127, 139, 204, 0.534);
+			padding: 10px 30px;
+			border-radius: 20px;
+		}
+	}
+
 	form {
 		max-width: 80%;
 		display: block;
 		margin: 0 auto;
-		input {
-			width: 100px;
-		}
 	}
+}
+hr {
+	border-top: hsl(0deg 0% 67.08%) solid;
+	box-shadow: 3px 3px 6px 2px #000;
 }
