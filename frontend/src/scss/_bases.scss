@@ -97,8 +97,11 @@ main {
 			font-weight: bold;
 			width: fit-content;
 			display: block;
-			margin: 0 auto 20px;
+			margin: 50px auto;
 			background-color: hsla(231, 43%, 65%, 0.534);
+			box-shadow: 0 0 10px 9px rgba(127, 139, 204, 0.534);
+			padding: 10px 30px;
+			border-radius: 20px;
 		}
 	}
 
