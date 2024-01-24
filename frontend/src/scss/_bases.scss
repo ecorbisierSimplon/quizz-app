@@ -109,8 +109,9 @@ main {
 		max-width: 80%;
 		display: block;
 		margin: 0 auto;
-		input {
-			width: 100px;
-		}
 	}
+}
+hr {
+	border-top: hsl(0deg 0% 67.08%) solid;
+	box-shadow: 3px 3px 6px 2px #000;
 }
