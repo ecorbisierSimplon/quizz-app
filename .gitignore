@@ -3,8 +3,8 @@ node_modules
 /build
 /.svelte-kit
 /package
-.env
-.env.*
+# .env
+# .env.*
 !.env.example
 .vercel
 .output
@@ -26,3 +26,9 @@ vite.config.ts.timestamp-*
 
 # Avoid your project being littered with annoying .DS_Store files!
 .DS_Store
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
