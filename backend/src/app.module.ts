@@ -18,6 +18,4 @@ import { QuizModule } from './quiz.module';
     QuizModule,
   ],
 })
-
 export class AppModule {}
-
