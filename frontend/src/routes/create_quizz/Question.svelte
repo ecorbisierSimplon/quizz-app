@@ -55,38 +55,49 @@
 			/>
 			<label for="quizzTitle" class="form-label"> Quizz Title </label>
 		</div>
-		<div class="quizz title__color">
-			<div>
+		<div class="options">
+			<div class="duree">
 				<input
-					bind:value={$quizzTitleColor}
-					id="quizzTitleColor"
-					name="quizzTitleColor"
-					type="text"
-					class="title__color--decimal title colorDecimal form-control"
-					required
+					id="quizzTitleTime"
+					name="quizzTitleTimer"
+					type="time"
+					class="title__color--duree title colorDuree form-control"
 				/>
-				<input
-					bind:value={$quizzTitleColor}
-					on:change={handleColorChange}
-					id="quizzTitleColorChoice"
-					type="color"
-					class="title__color--choice"
-					required
-				/>
+				<label for="quizzTitleDuree" class="form-label"> During by question </label>
 			</div>
-			<label for="quizzTitleColorChoice" class="form-label"> Quizz Color </label>
+			<div class="quizz title__color">
+				<div>
+					<input
+						bind:value={$quizzTitleColor}
+						id="quizzTitleColor"
+						name="quizzTitleColor"
+						type="text"
+						class="title__color--decimal title colorDecimal form-control"
+						required
+					/>
+					<input
+						bind:value={$quizzTitleColor}
+						on:change={handleColorChange}
+						id="quizzTitleColorChoice"
+						type="color"
+						class="title__color--choice"
+						required
+					/>
+				</div>
+				<label for="quizzTitleColorChoice" class="form-label"> Quizz Color </label>
+			</div>
 		</div>
-	</div>
-	<div>
-		<input
-			accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
-			bind:files
-			id="avatar"
-			name="avatar"
-			class="form-control"
-			type="file"
-		/>
-		<label for={`avatar`} class="form-label">Upload a picture</label>
+		<div>
+			<input
+				accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
+				bind:files
+				id="avatar"
+				name="avatar"
+				class="form-control"
+				type="file"
+			/>
+			<label for={`avatar`} class="form-label">Upload a picture</label>
+		</div>
 	</div>
 	<hr />
 	{#each questions as question, questionIndex (questionIndex)}
@@ -109,17 +120,30 @@
 			<label for={`question-${questionIndex}`} class="form-label">
 				Question {questionIndex + 1}
 			</label>
-
-			<input
-				accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
-				bind:files
-				id={`image-${questionIndex}`}
-				name={`image-${questionIndex}`}
-				class="form-control"
-				type="file"
-			/>
-			<label for={`image-${questionIndex}`} class="form-label">Upload a picture</label>
-
+			<div class="options">
+				<div class="duree">
+					<input
+						id={`quizzTitleTime-${questionIndex}`}
+						name={`quizzTitleTimer-${questionIndex}`}
+						type="time"
+						class="title__color--duree title colorDuree form-control"
+					/>
+					<label for={`quizzTitleTime-${questionIndex}`} class="form-label">
+						During by question
+					</label>
+				</div>
+				<div class="image">
+					<input
+						accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
+						bind:files
+						id={`image-${questionIndex}`}
+						name={`image-${questionIndex}`}
+						class="form-control"
+						type="file"
+					/>
+					<label for={`image-${questionIndex}`} class="form-label">Upload a picture</label>
+				</div>
+			</div>
 			<hr />
 			{#each question.responses as response, responseIndex (responseIndex)}
 				<div class="response">
@@ -200,14 +224,7 @@
 	<button type="submit" class="btn btn-primary">Create</button>
 </form>
 
-<style>
-	#content {
-		display: flex;
-		overflow: hidden;
-		width: 100%;
-	}
-
-	.carousel {
+<!-- .carousel {
 		display: flex;
 		transition: transform 0.3s ease;
 	}
@@ -215,5 +232,12 @@
 	.carousel div {
 		flex: 0 0 100%;
 		box-sizing: border-box;
+	} -->
+
+<style>
+	#content {
+		display: flex;
+		overflow: hidden;
+		width: 100%;
 	}
 </style>

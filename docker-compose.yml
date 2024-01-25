@@ -16,7 +16,7 @@ services:
       - db
       - app-frontend
     volumes:
-      - ./backend/src:/app/backend/src
+      - ./backend/src:/app-backend/src
     command: npm run start:dev
 
   app-frontend:
@@ -29,7 +29,7 @@ services:
       - "8080:5173"
 
     volumes:
-      - ./frontend/src:/app/frontend/src
+      - ./frontend/src:/app-frontend/src
     command: npm run dev -- --host
 
   db:
