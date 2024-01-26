@@ -6,7 +6,6 @@ services:
     build:
       context: ./backend
     env_file:
-      # - ./.env/environnements.env
       - ./.env/postgres.env
       - ./.env/SMTP.env
       - ./.env/maildev.env
@@ -17,19 +16,24 @@ services:
       - app-frontend
     volumes:
       - ./backend/src:/app-backend/src
+      - ./backend/node_modules:/app-backend/node_modules
+      # - ./backend/.svelte-kit:/app-backend/.svelte-kit
     command: npm run start:dev
 
   app-frontend:
     container_name: Server-front
     build:
       context: ./frontend
-    environment:
-      - PORT=8080
+    env_file:
+      - ./.env/environnements.env
+
     ports:
       - "8080:5173"
 
     volumes:
       - ./frontend/src:/app-frontend/src
+      - ./frontend/node_modules:/app-frontend/node_modules
+      - ./frontend/.svelte-kit:/app-frontend/.svelte-kit
     command: npm run dev -- --host
 
   db:

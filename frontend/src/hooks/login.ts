@@ -1,5 +1,5 @@
-// src/hooks/login.ts
-export async function post({ request, resolve }) {
+import type { LoadInput } from '@sveltejs/kit';
+export async function post({ request, resolve }: LoadInput) {
 	// Traitez la requête POST ici
 	const body = await request.json();
 
