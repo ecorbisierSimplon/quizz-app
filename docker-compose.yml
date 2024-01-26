@@ -16,7 +16,7 @@ services:
       - app-frontend
     volumes:
       - ./backend/src:/app-backend/src
-      - ./backend/node_modules:/app-backend/node_modules
+      # - ./backend/node_modules:/app-backend/node_modules
       # - ./backend/.svelte-kit:/app-backend/.svelte-kit
     command: npm run start:dev
 
@@ -32,8 +32,8 @@ services:
 
     volumes:
       - ./frontend/src:/app-frontend/src
-      - ./frontend/node_modules:/app-frontend/node_modules
-      - ./frontend/.svelte-kit:/app-frontend/.svelte-kit
+      # - ./frontend/node_modules:/app-frontend/node_modules
+      # - ./frontend/.svelte-kit:/app-frontend/.svelte-kit
     command: npm run dev -- --host
 
   db:

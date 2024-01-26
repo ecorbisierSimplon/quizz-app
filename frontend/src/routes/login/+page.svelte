@@ -1,8 +1,21 @@
 <!-- src/routes/login/index.svelte -->
 <script lang="ts">
-	import { info } from './page';
+	// import { hostname } from 'os';
+	import { onMount } from 'svelte';
+	import { api } from './+page.server';
 
-	info();
+	// onMount(() => {
+	// 	const hostname = 'http://localhost:8081/user/register';
+	// 	api(hostname)
+	// 		.then((test) => {
+	// 			// Utilisez la réponse ici
+	// 			console.log(test);
+	// 		})
+	// 		.catch((error) => {
+	// 			// Gérez les erreurs ici
+	// 			console.error(error);
+	// 		});
+	// });
 </script>
 
 <!-- <form on:submit={handleSubmit}>
