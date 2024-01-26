@@ -59,26 +59,21 @@
 		border-radius: 0 4px 4px 0;
 	}
 }
-/* This is just for CodePen. */
 
-.form {
-	max-width: 600px;
+form {
+	display: block;
+	position: relative;
 	font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-weight: normal;
 	line-height: 1.625;
-	margin: 8px auto;
 	padding: 16px;
-}
-
-form {
-	position: relative;
 	max-width: 80%;
-	display: block;
 	margin: 0 auto;
 
 	label {
 		color: hsl(0deg 0.69% 71.57%);
 		margin: 0px 5px 10px 0px;
+		cursor: pointer;
 	}
 	input.form-control {
 		border-width: 0px;
@@ -98,29 +93,71 @@ form {
 	input[type='file'] {
 		&::file-selector-button {
 			background-color: hsl(231, 69%, 76%);
+			content: 'Choise image';
 			&:hover {
 				background-color: hsl(232, 79%, 85%);
 			}
 		}
 	}
-	.quizz {
-		&.title {
+
+	.title {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		width: 100%;
+		& > div {
+			&:first-child {
+				flex: 1;
+				margin-right: 10px;
+			}
+			&:last-child {
+			}
+		}
+	}
+	&__title {
+		margin-bottom: 10px;
+	}
+	.options {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		&.left {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
-			justify-content: space-between;
-			width: 100%;
-			& > div {
-				&:first-child {
-					flex: 1;
-					margin-right: 10px;
-				}
-				&:last-child {
-				}
+			justify-content: flex-start;
+		}
+		&__image {
+			flex: 1;
+			margin-right: 10px;
+		}
+		&__duree {
+			margin-right: 10px;
+			input {
+				width: 130px;
+				text-align: right;
 			}
 		}
-		&__title {
-			margin-bottom: 10px;
+		&__color {
+			& > div {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				align-items: center;
+				justify-content: flex-start;
+			}
+			&--decimal {
+				width: 100px;
+				margin-right: 10px;
+			}
+			&--choice {
+				width: 40px;
+				height: 40px;
+				border-width: 0;
+				cursor: pointer;
+			}
 		}
 	}
 
@@ -148,27 +185,7 @@ form {
 			bottom: 14px;
 		}
 	}
-	.title {
-		&__color {
-			& > div {
-				display: flex;
-				flex-direction: row;
-				flex-wrap: nowrap;
-				align-items: center;
-				justify-content: flex-start;
-			}
-			&--decimal {
-				width: 100px;
-				margin-right: 10px;
-			}
-			&--choice {
-				width: 40px;
-				height: 40px;
-				border-width: 0;
-				cursor: pointer;
-			}
-		}
-	}
+
 	button {
 		&.remove,
 		&.plus {

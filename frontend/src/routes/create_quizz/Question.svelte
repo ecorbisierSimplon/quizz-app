@@ -42,8 +42,8 @@
 	}
 </script>
 
-<form on:submit|preventDefault={saveForm}>
-	<div class="quizz title">
+<form class="quizz" on:submit|preventDefault={saveForm}>
+	<div class="title">
 		<div>
 			<input
 				bind:value={quizzTitle}
@@ -55,38 +55,6 @@
 			/>
 			<label for="quizzTitle" class="form-label"> Quizz Title </label>
 		</div>
-		<div class="options">
-			<div class="duree">
-				<input
-					id="quizzTitleTime"
-					name="quizzTitleTimer"
-					type="time"
-					class="title__color--duree title colorDuree form-control"
-				/>
-				<label for="quizzTitleDuree" class="form-label"> During by question </label>
-			</div>
-			<div class="quizz title__color">
-				<div>
-					<input
-						bind:value={$quizzTitleColor}
-						id="quizzTitleColor"
-						name="quizzTitleColor"
-						type="text"
-						class="title__color--decimal title colorDecimal form-control"
-						required
-					/>
-					<input
-						bind:value={$quizzTitleColor}
-						on:change={handleColorChange}
-						id="quizzTitleColorChoice"
-						type="color"
-						class="title__color--choice"
-						required
-					/>
-				</div>
-				<label for="quizzTitleColorChoice" class="form-label"> Quizz Color </label>
-			</div>
-		</div>
 		<div>
 			<input
 				accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
@@ -97,6 +65,35 @@
 				type="file"
 			/>
 			<label for={`avatar`} class="form-label">Upload a picture</label>
+		</div>
+		<div class="options">
+			<div class="options__duree">
+				<input id="duree" name="duree" type="number" min="0" max="600" class=" form-control" />
+				<label for="duree" class="form-label">
+					During by question <br /><small>(in seconds ; 0 : infinite)</small></label
+				>
+			</div>
+			<div class="options__color">
+				<div>
+					<input
+						bind:value={$quizzTitleColor}
+						id="color"
+						name="color"
+						type="text"
+						class="options__color--decimal form-control"
+						required
+					/>
+					<input
+						bind:value={$quizzTitleColor}
+						on:change={handleColorChange}
+						id="colorChoice"
+						type="color"
+						class="options__color--choice"
+						required
+					/>
+				</div>
+				<label for="colorChoice" class="form-label"> Quizz Color </label>
+			</div>
 		</div>
 	</div>
 	<hr />
@@ -120,19 +117,9 @@
 			<label for={`question-${questionIndex}`} class="form-label">
 				Question {questionIndex + 1}
 			</label>
-			<div class="options">
-				<div class="duree">
-					<input
-						id={`quizzTitleTime-${questionIndex}`}
-						name={`quizzTitleTimer-${questionIndex}`}
-						type="time"
-						class="title__color--duree title colorDuree form-control"
-					/>
-					<label for={`quizzTitleTime-${questionIndex}`} class="form-label">
-						During by question
-					</label>
-				</div>
-				<div class="image">
+
+			<div class="options left">
+				<div class="options__image">
 					<input
 						accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
 						bind:files
@@ -142,6 +129,19 @@
 						type="file"
 					/>
 					<label for={`image-${questionIndex}`} class="form-label">Upload a picture</label>
+				</div>
+				<div class="options__duree">
+					<input
+						id={`duree-${questionIndex}`}
+						name={`duree-${questionIndex}`}
+						type="number"
+						min="0"
+						max="600"
+						class=" form-control"
+					/>
+					<label for={`duree-${questionIndex}`} class="form-label">
+						During by question <br /><small>(in seconds ; 0 : infinite)</small></label
+					>
 				</div>
 			</div>
 			<hr />
