@@ -1,39 +1,41 @@
 version: "3.8"
-
 services:
   app-backend:
-    container_name: Server-db
+    container_name: Server-DB
+    platform: linux/x86_64
     build:
       context: ./backend
+      target: dev
+    volumes:
+      - ./backend/src:/app_backend/src
+      - ./backend/node_modules:/app_backend/node_modules
+    ports:
+      - "3000:3000"
     env_file:
       - ./.env/postgres.env
       - ./.env/SMTP.env
       - ./.env/maildev.env
-    ports:
-      - "8081:3000"
+      - ./.env/backend.env
     depends_on:
       - db
-      - app-frontend
-    volumes:
-      - ./backend/src:/app-backend/src
-      # - ./backend/node_modules:/app-backend/node_modules
-      # - ./backend/.svelte-kit:/app-backend/.svelte-kit
     command: npm run start:dev
 
   app-frontend:
-    container_name: Server-front
+    container_name: Server-FRONT
+    platform: linux/x86_64
     build:
       context: ./frontend
     env_file:
       - ./.env/environnements.env
-
     ports:
       - "8080:5173"
-
     volumes:
-      - ./frontend/src:/app-frontend/src
-      # - ./frontend/node_modules:/app-frontend/node_modules
-      # - ./frontend/.svelte-kit:/app-frontend/.svelte-kit
+      - ./frontend/src:/app_frontend/src
+      - ./frontend/node_modules:/app_frontend/node_modules
+      - ./frontend/.svelte-kit:/app_frontend/.svelte-kit
+      - ./frontend/static:/app_frontend/static
+    depends_on:
+      - app-backend
     command: npm run dev -- --host
 
   db:
@@ -43,9 +45,8 @@ services:
     env_file:
       - ./.env/postgres.env
     volumes:
-      # - ${PWD}/DataBase/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./backend/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./backend/DataBase/postgres-data:/var/lib/postgresql/data
+      - ./backend/DataBase/postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -55,9 +56,9 @@ services:
     restart: always
     ports:
       - "5051:8080"
-    environment:
-      ADMINER_DEFAULT_SERVER: "db"
-      ADMINER_DEFAULT_TYPE: "postgreSQL"
+    env_file:
+      - ./.env/postgres.env
+      - ./.env/adminer.env
     depends_on:
       - db
 
@@ -71,3 +72,6 @@ services:
       - "5050:80"
     depends_on:
       - db
+
+volumes:
+  postgres_data:

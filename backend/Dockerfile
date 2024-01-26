@@ -1,9 +1,19 @@
-FROM node:21-alpine
+FROM node:21-alpine AS base
 
-WORKDIR /app-backend
 
+FROM base AS builder
+WORKDIR /app_backend
 COPY package*.json ./
-
 RUN npm install
+COPY . .
+RUN npm run gcp-build
 
-COPY . /app-backend/
+
+FROM base as dev
+WORKDIR /app_backend
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "start:dev"]
+
