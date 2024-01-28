@@ -1,9 +1,11 @@
-/node_modules
+.env/
+.git/
+DataBase/
+node_modules/
 .dockerignore
 .gitignore
 Dockerfile
-npm-debug.log
-.git/
-DataBase
 docker-compose.yml
-*.env
+npm-debug.log
+package-lock.json
+generated/prisma-client

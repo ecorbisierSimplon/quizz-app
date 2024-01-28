@@ -1,14 +1,12 @@
 .DS_Store
-/node_modules
-/.svelte-kit
 /build
-/.svelte-kit
 /package
 .vercel
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 package-lock.json
+
 # Avoid accidental Sketch file upload 
 ###############################################
 ## Please do not remove line 5 - thanks! 🙂 ##
@@ -29,3 +27,6 @@ package-lock.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+/node_modules
+/.svelte-kit

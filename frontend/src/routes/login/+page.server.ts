@@ -1,5 +1,38 @@
+import type { PageData } from '$lib/packages/types';
+import { fail } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+export async function load({ cookies }) {
+	const user = { surname: 'Eric' }; //await db.getUserFromSession(cookies.get('sessionid'));
+	return { user };
+}
+
+export const actions = {
+	login: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const email = data.get('email');
+		const password = data.get('password');
+
+		if (!email) {
+			return fail(400, { email, missing: true });
+		}
+
+		// const user = { surname: 'Eric' }; //await db.getUser(email);
+		// cookies.set('sessionid', await db.createSession(user), { path: '/' });
+
+		return { success: true };
+	},
+	register: async (event) => {
+		// TODO register the user
+	}
+};
+
 // import { getCookie, setCookie } from 'typescript-cookie';
 // import { fail, redirect } from '@sveltejs/kit';
+// import { Actions } from '../../../.svelte-kit/types/src/routes/login/$types';
 
 // /** @type {import('./$types').Actions} */
 // export const actions = {
