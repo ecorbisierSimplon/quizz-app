@@ -1,6 +1,6 @@
 // import { Routes } from './Routes';
 import { DocumentCreate } from './CreateElements';
-import type { NavLi } from './interface';
+import type { NavLi } from './types';
 // import { hostname } from './variables';
 
 export class GenerateHtml {

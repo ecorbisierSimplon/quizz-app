@@ -1,4 +1,4 @@
-import type { ElemOptions, Options } from './interface';
+import type { ElemOptions, Options } from './types';
 // import { hostname } from './variables';
 
 export class DocumentCreate {

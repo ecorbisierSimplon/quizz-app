@@ -13,6 +13,14 @@ export class UserController {
 
   @Post('login')
   async login(@Body() user: User): Promise<any> {
+    try {
+      const loginCreated = await this.userService.login(user);
+      return loginCreated;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+
     return this.userService.login(user);
   }
 

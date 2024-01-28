@@ -7,8 +7,9 @@ services:
       context: ./backend
       target: dev
     volumes:
-      - ./backend/src:/app_backend/src
-      - ./backend/node_modules:/app_backend/node_modules
+      - ./backend/src:/app/src
+      - /app/node_modules
+
     ports:
       - "3000:3000"
     env_file:
@@ -26,14 +27,14 @@ services:
     build:
       context: ./frontend
     env_file:
-      - ./.env/environnements.env
+      - ./.env/frontend.env
     ports:
       - "8080:5173"
     volumes:
-      - ./frontend/src:/app_frontend/src
-      - ./frontend/node_modules:/app_frontend/node_modules
-      - ./frontend/.svelte-kit:/app_frontend/.svelte-kit
-      - ./frontend/static:/app_frontend/static
+      - ./frontend/src:/app/src
+      - /app/node_modules
+      - /app/.svelte-kit
+      - ./frontend/static:/app/static
     depends_on:
       - app-backend
     command: npm run dev -- --host
@@ -46,7 +47,7 @@ services:
       - ./.env/postgres.env
     volumes:
       - ./backend/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./backend/DataBase/postgres_data:/var/lib/postgresql/data
+      - ./backend/DataBase/postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -74,4 +75,4 @@ services:
       - db
 
 volumes:
-  postgres_data:
+  postgres-data:

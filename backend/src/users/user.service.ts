@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from './dto/createUser.dto';
 
 @Injectable()
 export class UserService {
@@ -12,9 +13,22 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  async register(user: User): Promise<User> {
+  async register(user: CreateUserDto) {
     // TODO: hash the password and validate the input
     return this.userRepository.save(user);
+
+    const userCreated = this.userRepository.create();
+    userCreated.surName = user.surName;
+    userCreated.firstName = user.firstName;
+    userCreated.email = user.email;
+    userCreated.key = user.key;
+    await this.userRepository.insert(userCreated);
+    // userCreated.questions = await this.quesuserService.createMany(
+    //   quiz.questions,
+    // );
+
+    await this.userRepository.save(userCreated);
+    return userCreated;
   }
 
   async login(user: User): Promise<any> {

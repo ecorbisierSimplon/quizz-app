@@ -1,8 +1,9 @@
-FROM node:21-alpine
+FROM node:21-alpine 
 
-WORKDIR /app_frontend
-COPY package*.json ./
+ENV FOO=/app
+WORKDIR ${FOO}
+COPY package.json ${FOO}
 RUN npm install
-COPY . .
+COPY . ${FOO}
 EXPOSE 8080
 CMD ["npm", "run", "dev --host"]
