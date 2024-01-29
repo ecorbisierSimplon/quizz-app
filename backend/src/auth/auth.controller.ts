@@ -1,35 +1,35 @@
 import {
+  Body,
   Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
   Post,
   Request,
-  Body,
-  Get,
-  Param,
   UseGuards,
 } from '@nestjs/common';
-
-import { UserService } from '../users/user.service';
-import { User } from '../users/user.entity';
-
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { CreateUserDto } from 'src/users/dto/createUser.dto';
 
-@Controller('login')
-export class LoginController {
-  constructor(
-    private authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
 
-  @Post()
-  @UseGuards(AuthGuard('local')) // Utilisez le local strategy pour l'authentification de base (username/password)
-  async login(@Body() user: User) {
-    // À ce stade, l'utilisateur est authentifié avec succès, et req.user contient les informations de l'utilisateur.
-    const thisUser = await this.userService.findOneByEmail(user.email);
-    const { id, sur_name } = thisUser;
-    const token = await this.authService.generateToken(id, sur_name);
+  @Get('this')
+  async me() {
+    return { this: 'Hello Word' };
+  }
 
-    // Retournez le token et éventuellement d'autres informations si nécessaire.
-    return { token, id, sur_name };
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  signIn(@Body() signInDto: CreateUserDto) {
+    return this.authService.signIn(signInDto.email, signInDto.key);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
