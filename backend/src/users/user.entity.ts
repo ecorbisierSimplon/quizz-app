@@ -17,6 +17,9 @@ export class User {
   @Column({ length: 500 })
   key: string;
 
+  @Column({ default: 0 })
+  role: number;
+
   @Column({})
   date_create: Date;
 }

@@ -14,6 +14,7 @@ import { UserModule } from './users/user.module';
       password: 'root',
       database: 'quiz',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      autoLoadEntities: true,
       synchronize: true,
     }),
     UserModule,

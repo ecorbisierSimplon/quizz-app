@@ -1,0 +1,23 @@
+DATABASE : quiz
+
+TABLE users
+id : number - uniq
+sur_name : string
+last_name : string
+email : string
+id_role : number
+date_create : datetime
+
+TABLE quizz
+id : number - uniq
+text: string
+id_user : number
+date_create : datetime
+
+TABLE question
+id : number - uniq
+text : string
+id_quizz : number
+id_user : number
+responses : string
+date_create : datetime

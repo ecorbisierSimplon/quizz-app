@@ -5,14 +5,13 @@
 </script>
 
 {#if form?.success}
-	<!-- this message is ephemeral; it exists because the page was rendered in
-		   response to a form submission. it will vanish if the user reloads -->
-	<p>Successfully logged in! Welcome back, {data.user.surname}</p>
+	<p>Successfully logged in! Welcome back, {data.user}</p>
 {:else}
 	<form method="POST" action="?/login">
 		<label>
 			Email
 			<input name="email" type="email" />
+			<span>{form?.message}</span>
 		</label>
 		<label>
 			Password
