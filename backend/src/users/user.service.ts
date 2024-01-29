@@ -18,8 +18,8 @@ export class UserService {
     return this.userRepository.save(user);
 
     const userCreated = this.userRepository.create();
-    userCreated.surName = user.surName;
-    userCreated.firstName = user.firstName;
+    userCreated.sur_name = user.surName;
+    userCreated.first_name = user.firstName;
     userCreated.email = user.email;
     userCreated.key = user.key;
     await this.userRepository.insert(userCreated);
@@ -37,5 +37,23 @@ export class UserService {
     return {
       accessToken: this.jwtService.sign(payload),
     };
+  }
+
+  findAll() {
+    return this.userRepository.find();
+  }
+
+  findOneById(id: number) {
+    return this.userRepository.findOne({
+      where: { id: id },
+      // relations: {},
+    });
+  }
+
+  findOneByEmail(email: string) {
+    return this.userRepository.findOne({
+      where: { email: email },
+      // relations: {},
+    });
   }
 }
