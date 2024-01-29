@@ -1,16 +1,6 @@
-import {
-  Controller,
-  Post,
-  Request,
-  Body,
-  Get,
-  Param,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
-import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from '../auth.service';
 
 @Controller('user')
 export class UserController {
@@ -56,23 +46,5 @@ export class UserController {
       console.error(error);
       throw error;
     }
-
-    return this.userService.login(user);
-  }
-}
-
-@Controller('login')
-export class LoginController {
-  constructor(private authService: AuthService) {}
-
-  @Post()
-  @UseGuards(AuthGuard('local')) // Utilisez le local strategy pour l'authentification de base (username/password)
-  async login(@Request() req: any) {
-    // À ce stade, l'utilisateur est authentifié avec succès, et req.user contient les informations de l'utilisateur.
-    const { id, sur_name } = req.user;
-    const token = await this.authService.generateToken(id, sur_name);
-
-    // Retournez le token et éventuellement d'autres informations si nécessaire.
-    return { token, id, sur_name };
   }
 }
