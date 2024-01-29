@@ -6,14 +6,17 @@ export class User {
   id: number;
 
   @Column({ length: 255 })
-  surName: string;
+  sur_name: string;
 
   @Column({ length: 255 })
-  firstName: string;
+  first_name: string;
 
   @Column({ length: 255 })
   email: string;
 
   @Column({ length: 500 })
   key: string;
+
+  @Column({})
+  date_create: Date;
 }
