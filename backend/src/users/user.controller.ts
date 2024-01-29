@@ -11,13 +11,25 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param() params: { id: string }) {
+  @Get('me')
+  async me() {
+    return { hello: 'Hello Word' };
+  }
+
+  @Get('id/:id')
+  async findOne(@Param() params: { id: string | null }) {
     return this.userService.findOneById(parseInt(params.id));
   }
-  @Get(':email')
+
+  @Get('email/:email')
   async findOneEmail(@Param() params: { email: string }) {
-    return this.userService.findOneByEmail(params.email);
+    const user = await this.userService.findOneByEmail(params.email);
+    try {
+      const send = user.id;
+      return { user };
+    } catch (error) {
+      return { email: null };
+    }
   }
 
   @Post('register')
@@ -34,12 +46,5 @@ export class UserController {
       console.error(error);
       throw error;
     }
-
-    return this.userService.login(user);
-  }
-
-  @Get('me')
-  async me() {
-    return { hello: 'eric' };
   }
 }
