@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -10,7 +9,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
   ) {}
 
   async register(user: CreateUserDto) {
@@ -31,13 +29,9 @@ export class UserService {
     await this.userRepository.save(userCreated);
     return userCreated;
   }
-
-  async login(user: User): Promise<any> {
-    // TODO: verify the password and generate a JWT
-    const payload = { email: user.email, sub: user.id };
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
+  async testLogin(email: string): Promise<User | undefined> {
+    const tableUsers = await this.userRepository.find();
+    return tableUsers.find((tableUsers) => tableUsers.email === email);
   }
 
   findAll() {

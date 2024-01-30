@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Quiz } from '../quiz/quiz.entity';
 import { Role } from '../roles/role.entity';
 import { Key } from '../keys/key.entity';
@@ -23,7 +29,7 @@ export class User {
   @Column({ default: 0 })
   role: number;
 
-  @Column({})
+  @Column({ default: 'Now()' })
   date_create: Date;
 
   @OneToMany(() => Quiz, (quizz) => quizz.user)
@@ -33,5 +39,5 @@ export class User {
   keys: Key[];
 
   @ManyToOne(() => Role, (role) => role.users)
-  role: Role;
+  roles: Role[];
 }

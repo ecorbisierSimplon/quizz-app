@@ -4,15 +4,32 @@ import type { PageServerLoad, Actions } from './$types';
 const importJwt = () => import('jsonwebtoken');
 
 import dotenv from 'dotenv';
+import { getCookie } from 'typescript-cookie';
 dotenv.config();
 
 const API_URL = `http://app-backend:3000`;
+
 export async function load({ cookies }) {
-	// const response = await fetch(`${API_URL}/email/${email}`);
-	// const users = await response.json();
-	// console.log(users.last_name);
-	// const user = users.last_name; //await db.getUserFromSession(cookies.get('sessionid'));
-	// return { user };
+	const userString = cookies.get('user');
+	if (userString) {
+		// Utilisez `JSON.parse` uniquement si userString est défini
+		const users: { first_name: string } = JSON.parse(userString).user;
+		console.log(users.first_name);
+		// Assurez-vous que l'objet `users` existe avant d'accéder à la propriété `last_name`
+		if (users && users.first_name) {
+			console.log(users.first_name);
+			const user = users.first_name; //await db.getUserFromSession(cookies.get('sessionid'));
+			return { user };
+		} else {
+			// Gérez le cas où la propriété `last_name` n'est pas définie ou si l'objet `users` est null/undefined
+			console.error("Erreur: Impossible d'obtenir le nom de l'utilisateur.");
+			return { user: null }; // ou un autre traitement approprié
+		}
+	} else {
+		// Gérez le cas où userString est undefined
+		console.error("Erreur: La chaîne d'utilisateur est undefined.");
+		return { user: null }; // ou un autre traitement approprié
+	}
 }
 
 export const actions = {
@@ -29,81 +46,44 @@ export const actions = {
 			return fail(400, { email, missing: true, message: 'Password and/or email is invalid !' });
 		}
 
-		const user = (await fetch(`${API_URL}/email/${email}`)).json();
-		// cookies.set('sessionid', await db.createSession(user), { path: '/' });
+		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
+		console.log(await user);
+		const userString = JSON.stringify(await user);
+		cookies.set('user', userString, { path: '/' });
 
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
-			const response = await fetch(`${API_URL}/login`, {
+			const response = await fetch(`${API_URL}/auth/login`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
+				body: JSON.stringify({ email, key: password })
 			});
-			console.log(await response.json());
-			if (response.ok) {
-				const { userId, username } = await response.json();
-				const jwt = await importJwt();
-				const token = jwt.sign({ sub: userId, username }, 'your-secret-key', { expiresIn: '30d' });
-				localStorage.setItem('token', token);
-				console.log(token);
+			const token = await response.json();
+
+			if (token.access_token) {
+				cookies.set('sessionid', token.access_token, { path: '/' });
+
 				return { success: true };
 			}
+
+			// if (response.ok) {
+			// 	const { userId, username } = await response.json();
+			// 	const jwt = await importJwt();
+			// 	const token = jwt.sign({ sub: userId, username }, 'your-secret-key', { expiresIn: '30d' });
+			// 	localStorage.setItem('token', token);
+			// 	console.log(token);
+			// 	return { success: true };
+			// }
 
 			return null;
 		} catch (error) {
 			console.error('Error during login:', error);
 			return null;
 		}
-
-		// const login = await fetch(`${API_URL}/login`, {
-		// 	method: 'POST',
-		// 	headers: { 'Content-Type': 'application/json' },
-		// 	body: JSON.stringify({ email, password })
-		// });
-		// console.log(login);
-
-		// if (login.ok) {
-		// 	const { token } = await response.json();
-		// 	localStorage.setItem('token', token);
-		// 	console.log(token);
-		// 	return { success: true };
-		// }
-		// return null;
 	}
 };
 
 export function _getToken(): string | null {
+	getCookie('user');
 	return localStorage.getItem('token');
 }
-// import { getCookie, setCookie } from 'typescript-cookie';
-// import { fail, redirect } from '@sveltejs/kit';
-// import { Actions } from '../../../.svelte-kit/types/src/routes/login/$types';
-
-// /** @type {import('./$types').Actions} */
-// export const actions = {
-// 	login: async ({ request, url }) => {
-// 		const data = await request.formData();
-// 		const email = data.get('email');
-// 		const password = data.get('password');
-
-// 		// const user = await db.getUser(email);
-// 		if (!user) {
-// 			return fail(400, { email, missing: true });
-// 		}
-
-// 		if (user.password !== hash(password)) {
-// 			return fail(400, { email, incorrect: true });
-// 		}
-
-// 		getCookie('sessionid', await db.createSession(user), { path: '/' });
-
-// 		if (url.searchParams.has('redirectTo')) {
-// 			redirect(303, url.searchParams.get('redirectTo'));
-// 		}
-
-// 		return { success: true };
-// 	},
-// 	register: async (event) => {
-// 		// TODO register the user
-// 	}
-// };
