@@ -1,9 +1,17 @@
 <script lang="ts" module>
 	import type { PageData, ActionData } from './$types';
-
+	import { getCookie, setCookie } from 'typescript-cookie';
+	import { onMount } from 'svelte';
 	export let data: PageData;
 	export let form: ActionData;
-	const isSessionActive: boolean = false;
+	let isSessionActive: boolean = false;
+	onMount(() => {
+		if (data.login || getCookie('session') != undefined) {
+			setCookie('session', data.sessionid, { expires: 10, path: '/' });
+			isSessionActive = true;
+		}
+		console.log(getCookie('session'));
+	});
 </script>
 
 {#if isSessionActive}

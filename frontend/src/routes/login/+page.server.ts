@@ -5,12 +5,14 @@ const importJwt = () => import('jsonwebtoken');
 
 import dotenv from 'dotenv';
 import { getCookie } from 'typescript-cookie';
+import { session } from './control';
 dotenv.config();
 
 const API_URL = `http://app-backend:3000`;
 
 export async function load({ cookies }) {
 	const userString = cookies.get('user');
+	const sessionid = cookies.get('sessionid');
 	if (userString) {
 		// Utilisez `JSON.parse` uniquement si userString est défini
 		const users: { first_name: string } = JSON.parse(userString).user;
@@ -19,16 +21,16 @@ export async function load({ cookies }) {
 		if (users && users.first_name) {
 			console.log(users.first_name);
 			const user = users.first_name; //await db.getUserFromSession(cookies.get('sessionid'));
-			return { user };
+			return { user, login: true, sessionid };
 		} else {
 			// Gérez le cas où la propriété `last_name` n'est pas définie ou si l'objet `users` est null/undefined
 			console.error("Erreur: Impossible d'obtenir le nom de l'utilisateur.");
-			return { user: null }; // ou un autre traitement approprié
+			return { user: null, login: false }; // ou un autre traitement approprié
 		}
 	} else {
 		// Gérez le cas où userString est undefined
 		console.error("Erreur: La chaîne d'utilisateur est undefined.");
-		return { user: null }; // ou un autre traitement approprié
+		return { user: null, login: false }; // ou un autre traitement approprié
 	}
 }
 
@@ -62,7 +64,6 @@ export const actions = {
 
 			if (token.access_token) {
 				cookies.set('sessionid', token.access_token, { path: '/' });
-
 				return { success: true };
 			}
 
