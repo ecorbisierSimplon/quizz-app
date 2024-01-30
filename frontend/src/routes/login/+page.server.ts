@@ -1,17 +1,15 @@
-import type { PageData } from '$lib/packages/types';
-import { fail } from '@sveltejs/kit';
+import type { Actions } from './$types';
 import type { PageServerLoad, Actions } from './$types';
 
-import dotenv from 'dotenv';
-dotenv.config();
+import { fail } from '@sveltejs/kit';
 
-export async function load({ cookies }) {
-	const user = { surname: 'Eric' }; //await db.getUserFromSession(cookies.get('sessionid'));
+export const load: PageServerLoad + async({ cookies }) => {
+	const user = await db.getUserFromSession(cookies.get('sessionid'));
 	return { user };
-}
+};
 
 export const actions = {
-	login: async ({ cookies, request }) => {
+	login: async ({ cookies, request, url }) => {
 		const data = await request.formData();
 		const email = data.get('email');
 		const password = data.get('password');
@@ -19,46 +17,18 @@ export const actions = {
 		if (!email) {
 			return fail(400, { email, missing: true });
 		}
+		const user = await db.getUser(email);
 
-		// const user = { surname: 'Eric' }; //await db.getUser(email);
-		// cookies.set('sessionid', await db.createSession(user), { path: '/' });
+		if (user || user.password !== hash(password)) {
+			return fail(400, { email, incorrect: true });
+		}
 
-		return { success: true };
-	},
-	register: async (event) => {
-		// TODO register the user
+		cookies.set('sessionid', await db.createSession(user), { path: '/' });
+
+		if (url.searchParams.has('redirectTo')) {
+			redirect(303, url.searchParams.get('redirectTo'));
+		}
 	}
-};
+	return { success: true };
+} satisfies Actions;
 
-// import { getCookie, setCookie } from 'typescript-cookie';
-// import { fail, redirect } from '@sveltejs/kit';
-// import { Actions } from '../../../.svelte-kit/types/src/routes/login/$types';
-
-// /** @type {import('./$types').Actions} */
-// export const actions = {
-// 	login: async ({ request, url }) => {
-// 		const data = await request.formData();
-// 		const email = data.get('email');
-// 		const password = data.get('password');
-
-// 		// const user = await db.getUser(email);
-// 		if (!user) {
-// 			return fail(400, { email, missing: true });
-// 		}
-
-// 		if (user.password !== hash(password)) {
-// 			return fail(400, { email, incorrect: true });
-// 		}
-
-// 		getCookie('sessionid', await db.createSession(user), { path: '/' });
-
-// 		if (url.searchParams.has('redirectTo')) {
-// 			redirect(303, url.searchParams.get('redirectTo'));
-// 		}
-
-// 		return { success: true };
-// 	},
-// 	register: async (event) => {
-// 		// TODO register the user
-// 	}
-// };
