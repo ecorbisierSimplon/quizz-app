@@ -1,36 +1,42 @@
-<script lang="ts" module>
-	import type { PageData, ActionData } from './$types';
-	import { getCookie, setCookie } from 'typescript-cookie';
+<script lang="ts">
+	import { setCookie } from 'typescript-cookie';
 	import { onMount } from 'svelte';
-	export let data: PageData;
+	import type { ActionData, LoginData } from '$lib/packages/types';
+
+	export let data: LoginData;
 	export let form: ActionData;
 	let isSessionActive: boolean = false;
 	onMount(() => {
-		if (data.login || getCookie('session') != undefined) {
+		if (data.login) {
 			setCookie('session', data.sessionid, { expires: 10, path: '/' });
+			setCookie('surname', data.surName, { expires: 10, path: '/' });
+			setCookie('firstname', data.firstName, { expires: 10, path: '/' });
 			isSessionActive = true;
 		}
-		console.log(getCookie('session'));
+
+		// updateCookieState('session');
+		// console.log('SESSION : ' + $hasCookie);
 	});
 </script>
 
 {#if isSessionActive}
 	<p>You is connected !</p>
-{:else if form?.success}
-	<p>Successfully logged in! Welcome back, {data.user}</p>
+	<p>Welcome back, {data.surName}</p>
 {:else}
 	<form method="POST" action="?/login">
 		<label>
 			Email
-			<input name="email" type="email" />
-			<span>{form?.message}</span>
+			<input name="email" type="text" />
 		</label>
 		<label>
 			Password
 			<input name="password" type="password" />
 		</label>
+		{#if form?.errorEmail}
+			<span>{form?.errorEmail}</span>
+		{/if}
 		<button>Log in</button>
-		<button formaction="?/register">Register</button>
+		<!-- <button formaction="?/register">Register</button> -->
 	</form>
 {/if}
 
