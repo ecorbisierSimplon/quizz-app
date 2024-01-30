@@ -26,6 +26,7 @@
 				{#if $session}<li>
 						<a href="/create_quizz"><i class="fa fa-edit"></i> Create quizz</a>
 					</li>{/if}
+				{#if !$session}<li><a href="/register"><i class="far fa-id-card"></i> Register</a></li>{/if}
 				{#if !$session}<li><a href="/login"><i class="fa fa-user-alt"></i> Login</a></li>{/if}
 				{#if $session}<li>
 						<a href="/logout"><i class="fa fa-user-alt-slash"></i> Logout</a>

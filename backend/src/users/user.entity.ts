@@ -4,12 +4,14 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  Unique,
 } from 'typeorm';
-import { Quiz } from '../quiz/quiz.entity';
+import { Quizz } from '../quizz/quizz.entity';
 import { Role } from '../roles/role.entity';
 import { Key } from '../keys/key.entity';
 
 @Entity()
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,11 +31,11 @@ export class User {
   @Column({ default: 0 })
   role: number;
 
-  @Column({ default: 'Now()' })
+  @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
-  @OneToMany(() => Quiz, (quizz) => quizz.user)
-  quiz: Quiz[];
+  @OneToMany(() => Quizz, (quizz) => quizz.user)
+  quizz: Quizz[];
 
   @OneToMany(() => Key, (keys) => keys.user)
   keys: Key[];

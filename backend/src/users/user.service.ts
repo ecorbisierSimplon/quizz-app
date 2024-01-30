@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
+import { UserHash } from 'src/auth/authHash';
 
 @Injectable()
 export class UserService {
@@ -13,21 +14,27 @@ export class UserService {
 
   async register(user: CreateUserDto) {
     // TODO: hash the password and validate the input
-    return this.userRepository.save(user);
 
     const userCreated = this.userRepository.create();
     userCreated.sur_name = user.sur_name;
     userCreated.first_name = user.first_name;
     userCreated.email = user.email;
-    userCreated.key = user.key;
     userCreated.role = user.role;
-    await this.userRepository.insert(userCreated);
-    // userCreated.questions = await this.quesuserService.createMany(
-    //   quiz.questions,
-    // );
 
-    await this.userRepository.save(userCreated);
-    return userCreated;
+    const existingQuizz = await this.userRepository.findOne({
+      where: { email: userCreated.email },
+    });
+    if (existingQuizz) {
+      throw new NotFoundException('The email already exists.');
+    }
+
+    if (user.password != user.passwordValidation) {
+      throw new NotFoundException("The password isn't identical !");
+    }
+
+    userCreated.key = UserHash.hashPassword(user.password);
+    console.log(userCreated.key);
+    return this.userRepository.save(userCreated);
   }
   async testLogin(email: string): Promise<User | undefined> {
     const tableUsers = await this.userRepository.find();

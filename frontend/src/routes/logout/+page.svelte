@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import type { ActionData, LoginData } from '$lib/packages/types';
 	import { goto } from '$app/navigation';
+	import { session } from '../session';
 
 	export let data: LoginData;
 	export let form: ActionData;
@@ -11,13 +12,13 @@
 		setCookie('session', 'false', { expires: 0, path: '/' });
 		setCookie('surname', '', { expires: 0, path: '/' });
 		setCookie('firstname', '', { expires: 0, path: '/' });
-		if (form?.success) {
+		if (form?.success || !$session) {
 			goto('/');
 		}
 	});
 </script>
 
-{#if !form?.success}
+{#if !form?.success && $session}
 	<div>
 		<div class="">
 			<h3>Yous isn't connected !</h3>
@@ -57,31 +58,6 @@
 			h3 {
 				color: rgb(207, 206, 206);
 				margin: 0 auto;
-			}
-			button {
-				&.plus {
-					border-width: 0px;
-					padding: 5px 10px;
-					border-radius: 10px;
-					font-size: 18px;
-					transition:
-						color 0.15s ease-in-out,
-						background-color 0.15s ease-in-out,
-						border-color 0.15s ease-in-out,
-						box-shadow 0.15s ease-in-out;
-				}
-
-				&.plus {
-					background-color: hsl(231.08deg 54.61% 50.01%);
-					box-shadow:
-						1px 1px 0px 2px hsl(231, 53%, 17%),
-						1px 1px 2px 2px hsla(0, 4%, 54%, 0.604);
-					&:hover {
-						box-shadow:
-							1px 1px 2px 2px hsla(0, 4%, 54%, 0.604),
-							-1px -1px 2px 2px hsl(231, 53%, 17%);
-					}
-				}
 			}
 		}
 	}
