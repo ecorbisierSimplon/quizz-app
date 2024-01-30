@@ -1,12 +1,10 @@
-// import { json } from '@sveltejs/kit';
+import type { ActionData, LoginData } from '$lib/packages/types';
 import { fail } from '@sveltejs/kit';
-import type { PageServerLoad, Actions } from './$types';
-const importJwt = () => import('jsonwebtoken');
 
 import dotenv from 'dotenv';
 import { getCookie } from 'typescript-cookie';
-import { session } from './control';
-dotenv.config();
+// import { session } from './control';
+const importJwt = () => import('jsonwebtoken');
 
 const API_URL = `http://app-backend:3000`;
 
@@ -14,14 +12,13 @@ export async function load({ cookies }) {
 	const userString = cookies.get('user');
 	const sessionid = cookies.get('sessionid');
 	if (userString) {
-		// Utilisez `JSON.parse` uniquement si userString est défini
-		const users: { first_name: string } = JSON.parse(userString).user;
-		console.log(users.first_name);
-		// Assurez-vous que l'objet `users` existe avant d'accéder à la propriété `last_name`
+		const users: { first_name: string; sur_name: string } = JSON.parse(userString).user;
+
 		if (users && users.first_name) {
-			console.log(users.first_name);
-			const user = users.first_name; //await db.getUserFromSession(cookies.get('sessionid'));
-			return { user, login: true, sessionid };
+			const firstName = users.first_name;
+			const surName = users.sur_name;
+
+			return { firstName, surName, login: true, sessionid };
 		} else {
 			// Gérez le cas où la propriété `last_name` n'est pas définie ou si l'objet `users` est null/undefined
 			console.error("Erreur: Impossible d'obtenir le nom de l'utilisateur.");
@@ -45,11 +42,10 @@ export const actions = {
 		try {
 			response = response.user.email;
 		} catch (error) {
-			return fail(400, { email, missing: true, message: 'Password and/or email is invalid !' });
+			return fail(400, { email, missing: true, errorEmail: 'Password and/or email is invalid !' });
 		}
 
 		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
-		console.log(await user);
 		const userString = JSON.stringify(await user);
 		cookies.set('user', userString, { path: '/' });
 
