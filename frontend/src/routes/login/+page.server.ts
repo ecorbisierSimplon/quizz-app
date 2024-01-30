@@ -3,6 +3,7 @@ import { fail } from '@sveltejs/kit';
 
 import dotenv from 'dotenv';
 import { getCookie } from 'typescript-cookie';
+import { session } from '../session';
 // import { session } from './control';
 const importJwt = () => import('jsonwebtoken');
 
@@ -60,6 +61,7 @@ export const actions = {
 
 			if (token.access_token) {
 				cookies.set('sessionid', token.access_token, { path: '/' });
+				session.set(false);
 				return { success: true };
 			}
 

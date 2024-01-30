@@ -2,24 +2,21 @@
 	import { setCookie } from 'typescript-cookie';
 	import { onMount } from 'svelte';
 	import type { ActionData, LoginData } from '$lib/packages/types';
+	import { session } from '../session';
 
 	export let data: LoginData;
 	export let form: ActionData;
-	let isSessionActive: boolean = false;
 	onMount(() => {
 		if (data.login) {
 			setCookie('session', data.sessionid, { expires: 10, path: '/' });
 			setCookie('surname', data.surName, { expires: 10, path: '/' });
 			setCookie('firstname', data.firstName, { expires: 10, path: '/' });
-			isSessionActive = true;
+			session.set(true);
 		}
-
-		// updateCookieState('session');
-		// console.log('SESSION : ' + $hasCookie);
 	});
 </script>
 
-{#if isSessionActive}
+{#if $session}
 	<p>You is connected !</p>
 	<p>Welcome back, {data.surName}</p>
 {:else}

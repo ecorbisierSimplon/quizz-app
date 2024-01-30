@@ -1,7 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from '../login/$types';
+import { session } from '../session';
 
 export const load: PageServerLoad = async ({ cookies }) => {
+	session.set(false);
 	cookies.delete('sessionid', { path: '/' });
 	cookies.delete('user', { path: '/' });
 
@@ -10,7 +12,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 export const actions = {
 	logout: async ({ cookies, request }) => {
-		cookies.set('session', '');
+		console.log('action');
+		cookies.set('sessionid', '', { path: '/' });
 		return { success: true };
 	}
 };
