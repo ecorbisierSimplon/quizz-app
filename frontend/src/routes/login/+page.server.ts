@@ -3,10 +3,11 @@ import { fail } from '@sveltejs/kit';
 
 import dotenv from 'dotenv';
 import { getCookie } from 'typescript-cookie';
+import { session } from '../session';
 // import { session } from './control';
 const importJwt = () => import('jsonwebtoken');
 
-const API_URL = `http://app-backend:3000`;
+const API_URL = process.env.API_URL;
 
 export async function load({ cookies }) {
 	const userString = cookies.get('user');
@@ -54,12 +55,13 @@ export const actions = {
 			const response = await fetch(`${API_URL}/auth/login`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, key: password })
+				body: JSON.stringify({ email, password })
 			});
 			const token = await response.json();
 
 			if (token.access_token) {
 				cookies.set('sessionid', token.access_token, { path: '/' });
+				session.set(false);
 				return { success: true };
 			}
 
