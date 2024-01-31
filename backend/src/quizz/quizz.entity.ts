@@ -30,16 +30,13 @@ export class Quizz {
   @Column({ default: '#7f8bcc', nullable: true })
   color: string;
 
-  @Column()
-  id_user: number;
-
   @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
   @Column({ type: 'timestamptz', default: 'Now()' })
   date_change: Date;
 
-  @ManyToOne(() => User, (user) => user.quizz)
+  @ManyToOne(() => User, (user) => user.quizzs)
   user: User;
 
   @OneToMany(() => Question, (questions) => questions.quizz)

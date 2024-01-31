@@ -9,6 +9,7 @@ import {
 import { Quizz } from '../quizz/quizz.entity';
 import { Role } from '../roles/role.entity';
 import { Key } from '../keys/key.entity';
+import { Question } from 'src/questions/question.entity';
 
 @Entity()
 @Unique(['email'])
@@ -28,18 +29,21 @@ export class User {
   @Column({ length: 500 })
   key: string;
 
-  @Column({ default: 0 })
-  role: number;
-
   @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
-  @OneToMany(() => Quizz, (quizz) => quizz.user)
-  quizz: Quizz[];
+  @Column({ type: 'timestamptz', default: 'Now()' })
+  date_change: Date;
 
-  @OneToMany(() => Key, (keys) => keys.user)
+  @OneToMany(() => Quizz, (quizz) => quizz.user)
+  quizzs: Quizz[];
+
+  @OneToMany(() => Question, (question) => question.user)
+  questions: Quizz[];
+
+  @OneToMany(() => Key, (key) => key.user)
   keys: Key[];
 
   @ManyToOne(() => Role, (role) => role.users)
-  roles: Role[];
+  role: Role;
 }

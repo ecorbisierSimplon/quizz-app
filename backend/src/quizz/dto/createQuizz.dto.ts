@@ -6,6 +6,8 @@ import {
   IsOptional,
   IsHexColor,
   IsRgbColor,
+  IsEmpty,
+  IsNotEmpty,
 } from 'class-validator';
 import { Unique } from 'typeorm';
 
@@ -18,10 +20,7 @@ export class CreateQuizzDto {
   @IsOptional()
   image: string;
 
-  @IsString()
-  session: string;
-
-  @IsRgbColor()
+  @IsHexColor()
   @IsOptional()
   color: string;
 
@@ -30,9 +29,6 @@ export class CreateQuizzDto {
   duration: number;
 
   @IsBoolean()
-  visible: boolean;
-
-  @IsDate()
   @IsOptional()
-  date_create: Date;
+  visible: boolean;
 }

@@ -6,16 +6,13 @@ export class Key {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 500 })
   key: string;
-
-  @Column()
-  id_user: number;
 
   @Column()
   type: number;
 
-  @Column()
+  @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
   @ManyToOne(() => User, (user) => user.keys)

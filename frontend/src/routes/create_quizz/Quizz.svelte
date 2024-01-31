@@ -2,6 +2,12 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { quizzTitleColor, handleColorChange } from './question';
+	import { sessionKey } from '../session';
+
+	import type { PageData, ActionData } from './$types';
+
+	export let data: PageData;
+	export let form: ActionData;
 
 	let quizzTitle = '';
 	let files: FileList;
@@ -37,17 +43,17 @@
 			}
 		}
 	};
+	// 	id="quizz"
+	// class="quizz"
+	// name="quizz"
+	// use:enhance
+	// enctype="multipart/form-data"
 </script>
 
-<form
-	id="quizz"
-	class="quizz"
-	name="quizz"
-	method="POST"
-	action="/create_quizz?/quizz"
-	use:enhance
-	enctype="multipart/form-data"
->
+{data.api}
+<form method="POST" action="/create_quizz?/create">
+	{form?.success}<br />
+	<input name="session" bind:value={$sessionKey} hidden />
 	<div class="title">
 		<div>
 			<input
@@ -90,7 +96,6 @@
 					<input
 						bind:value={$quizzTitleColor}
 						id="color"
-						name="color"
 						type="text"
 						class="options__color--decimal form-control"
 						required
@@ -100,6 +105,7 @@
 						on:change={handleColorChange}
 						id="colorChoice"
 						type="color"
+						name="color"
 						class="options__color--choice"
 						required
 					/>
@@ -108,7 +114,7 @@
 			</div>
 		</div>
 	</div>
-	<button form="quizz" class="question__plus plus" type="submit" title="Add question !">
+	<button class="question__plus plus" type="submit" title="Add question !">
 		<i class="fas fa-plus"></i>
 	</button>
 </form>
