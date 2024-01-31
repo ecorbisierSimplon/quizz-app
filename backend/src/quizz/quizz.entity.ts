@@ -18,7 +18,7 @@ export class Quizz {
   @Column({ length: 500 })
   text: string;
 
-  @Column({ nullable: true })
+  @Column({ default: '$lib/image/questionnaire-a.png', nullable: true })
   image: string;
 
   @Column({ default: 5 * 60, nullable: true })
@@ -27,7 +27,7 @@ export class Quizz {
   @Column({ default: true, nullable: true })
   visible: boolean;
 
-  @Column({ length: 500 })
+  @Column({ default: '#7f8bcc', nullable: true })
   color: string;
 
   @Column()

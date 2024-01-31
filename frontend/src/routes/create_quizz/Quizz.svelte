@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import { quizzTitleColor, handleColorChange } from './question';
-	let quizzTitle = '';
 
+	let quizzTitle = '';
 	let files: FileList;
 
 	$: if (files) {
@@ -13,9 +15,46 @@
 			console.log(`${file.name}: ${file.size} bytes`);
 		}
 	}
+	let loadFile = function (event: Event | undefined) {
+		let output: HTMLImageElement | null = document.getElementById(
+			'output'
+		) as HTMLImageElement | null;
+
+		if (output !== null && event instanceof Event) {
+			// Check if the event has a target and the target is an input element
+			if (event.target && event.target instanceof HTMLInputElement) {
+				const file = event.target.files?.[0];
+
+				if (file) {
+					output.src = URL.createObjectURL(file);
+
+					output.onload = function () {
+						if (output !== null) {
+							URL.revokeObjectURL(output.src); // free memory
+						}
+					};
+				}
+			}
+		}
+	};
+	let data;
+
+	console.log('Before load:', data);
+
+	$: if (data && data.api) {
+		console.log('Inside reactive statement:', data.api);
+	}
 </script>
 
-<form id="quizz" class="quizz" name="quizz">
+<form
+	id="quizz"
+	class="quizz"
+	name="quizz"
+	method="POST"
+	action="/create_quizz?/quizz"
+	use:enhance
+	enctype="multipart/form-data"
+>
 	<div class="title">
 		<div>
 			<input
@@ -28,18 +67,23 @@
 			/>
 			<label for="quizzTitle" class="form-label"> Quizz Title </label>
 		</div>
-		<div>
-			<input
-				accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
-				bind:files
-				id="avatar"
-				name="image"
-				class="form-control input-file"
-				type="file"
-			/>
-			<label for={`avatar`} class="form-label label-file">
-				<i class="fas fa-image"></i> Upload a picture
-			</label>
+		<div class="add__img">
+			<div>
+				<input
+					accept="image/*"
+					on:change={(event) => loadFile(event)}
+					bind:files
+					id="avatar"
+					name="image"
+					class="form-control input-file"
+					type="file"
+				/>
+				<label for={`avatar`} class="form-label label-file">
+					<i class="fas fa-image"></i> Upload a picture
+				</label>
+			</div>
+			<!-- svelte-ignore a11y-img-redundant-alt -->
+			<img id="output" />
 		</div>
 		<div class="options">
 			<div class="options__duree">
@@ -71,6 +115,9 @@
 			</div>
 		</div>
 	</div>
+	<button form="quizz" class="question__plus plus" type="submit" title="Add question !">
+		<i class="fas fa-plus"></i>
+	</button>
 </form>
 
 <style lang="scss">

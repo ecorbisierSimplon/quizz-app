@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsDate,
   IsOptional,
+  IsHexColor,
 } from 'class-validator';
 import { Unique } from 'typeorm';
 
@@ -13,9 +14,13 @@ export class CreateQuizzDto {
   text: string;
 
   @IsString()
+  @IsOptional()
   image: string;
 
   @IsString()
+  session: string;
+
+  @IsHexColor()
   color: string;
 
   @IsInt()

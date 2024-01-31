@@ -5,6 +5,7 @@
 	import { backgroundColor, calculateBackgroundColor, quizzTitleColor } from './question';
 	import { session } from '../session';
 	import { goto } from '$app/navigation';
+	import type { PageData } from './$types';
 	onMount(() => {
 		if (!$session) {
 			goto('/');
@@ -32,8 +33,4 @@
 	<Quizz />
 
 	<!-- <Question /> -->
-
-	<button class="question__plus plus" type="button" title="Add question !">
-		<i class="fas fa-plus"></i>
-	</button>
 {/if}

@@ -159,6 +159,28 @@ form {
 			bottom: 9px;
 		}
 	}
+	.add {
+		&__img {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 25px;
+			img {
+				flex: 1;
+				margin: 0 auto;
+				max-width: 200px;
+				max-height: 200px;
+				min-width: 50px;
+				min-height: 50px;
+				aspect-ratio: auto;
+				background-color: #8d8d8d94;
+				border-radius: 5px;
+				box-shadow: 3px 2px 5px 1px #a7888896;
+			}
+		}
+	}
 }
 
 .error {

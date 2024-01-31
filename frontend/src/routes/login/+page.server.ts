@@ -7,7 +7,7 @@ import { session } from '../session';
 // import { session } from './control';
 const importJwt = () => import('jsonwebtoken');
 
-const API_URL = `http://app-backend:3000`;
+const API_URL = process.env.API_URL;
 
 export async function load({ cookies }) {
 	const userString = cookies.get('user');
