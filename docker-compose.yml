@@ -3,6 +3,7 @@ services:
   app-backend:
     container_name: Server-DB
     platform: linux/x86_64
+    image: appbackend:latest
     build:
       context: ./backend
       target: dev
@@ -24,6 +25,7 @@ services:
   app-frontend:
     container_name: Server-FRONT
     platform: linux/x86_64
+    image: appfrontend:latest
     build:
       context: ./frontend
     env_file:
