@@ -28,7 +28,7 @@ export class UserService {
       throw new NotFoundException('The email already exists.');
     }
 
-    if (user.password != user.passwordValidation) {
+    if (user.password != user.password_validation) {
       throw new NotFoundException("The password isn't identical !");
     }
 

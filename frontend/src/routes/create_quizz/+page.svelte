@@ -6,6 +6,14 @@
 	import { session } from '../session';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
+
+	export let data;
+	console.log('Before load:', data);
+
+	$: if (data && data.api) {
+		console.log('Inside reactive statement:', data.api);
+	}
+
 	onMount(() => {
 		if (!$session) {
 			goto('/');

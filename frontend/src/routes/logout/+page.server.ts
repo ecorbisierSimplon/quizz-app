@@ -14,6 +14,7 @@ export const actions = {
 	logout: async ({ cookies, request }) => {
 		console.log('action');
 		cookies.set('sessionid', '', { path: '/' });
+		cookies.set('user', '', { path: '/' });
 		return { success: true };
 	}
 };

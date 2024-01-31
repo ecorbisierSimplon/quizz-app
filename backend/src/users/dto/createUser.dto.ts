@@ -22,7 +22,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  passwordValidation: string;
+  password_validation: string;
 
   @IsInt()
   @Min(0)

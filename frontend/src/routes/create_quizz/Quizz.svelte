@@ -37,13 +37,6 @@
 			}
 		}
 	};
-	let data;
-
-	console.log('Before load:', data);
-
-	$: if (data && data.api) {
-		console.log('Inside reactive statement:', data.api);
-	}
 </script>
 
 <form

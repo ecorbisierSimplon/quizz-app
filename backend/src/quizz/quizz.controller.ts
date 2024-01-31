@@ -17,7 +17,7 @@ export class QuizzController {
     return this.quizzService.findOneById(parseInt(params.id));
   }
 
-  @Post()
+  @Post('/create')
   async create(@Body() quizz: CreateQuizzDto): Promise<Quizz> {
     return this.quizzService.create(quizz);
   }
