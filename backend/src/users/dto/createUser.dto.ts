@@ -1,4 +1,12 @@
-import { IsString, IsEmail, IsInt, Min, Max } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsInt,
+  Min,
+  Max,
+  IsOptional,
+} from 'class-validator';
+
 
 export class CreateUserDto {
   @IsString()
@@ -11,10 +19,14 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  key: string;
+  password: string;
+
+  @IsString()
+  @IsOptional()
+  passwordValidation: string;
 
   @IsInt()
-  @Min(1)
-  @Max(5)
+  @Min(0)
+  @Max(100)
   role: number;
 }

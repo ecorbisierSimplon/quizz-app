@@ -6,7 +6,7 @@ import {
   ManyToOne,
   Unique,
 } from 'typeorm';
-import { Quiz } from '../quiz/quiz.entity';
+import { Quizz } from '../quizz/quizz.entity';
 import { Role } from '../roles/role.entity';
 import { Key } from '../keys/key.entity';
 
@@ -31,11 +31,12 @@ export class User {
   @Column({ default: 0 })
   role: number;
 
-  @Column({ type: 'timestamp', default: () => 'Now()' })
+  @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
-  @OneToMany(() => Quiz, (quiz) => quiz.user)
-  quiz: Quiz[];
+  @OneToMany(() => Quizz, (quizz) => quizz.user)
+  quizz: Quizz[];
+
 
   @OneToMany(() => Key, (keys) => keys.user)
   keys: Key[];

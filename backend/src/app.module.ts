@@ -3,17 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionModule } from './questions/question.module';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
+import { QuizzModule } from './quizz/quizz.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: `${process.env.DATABASE_URL}`,
-      // host: 'db',
-      // port: 5432,
-      // username: 'root',
-      // password: 'root',
-      // database: 'quiz',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: true,
@@ -21,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     QuestionModule,
     AuthModule,
+    QuizzModule,
   ],
 })
 export class AppModule {}
