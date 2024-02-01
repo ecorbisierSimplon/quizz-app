@@ -25,7 +25,7 @@ export class User {
   @Column({ length: 255 })
   email: string;
 
-  @Column({ length: 500 })
+  @Column({ type: 'varchar', length: 500 })
   key: string;
 
   @Column({ default: 0 })
@@ -36,6 +36,7 @@ export class User {
 
   @OneToMany(() => Quizz, (quizz) => quizz.user)
   quizz: Quizz[];
+
 
   @OneToMany(() => Key, (keys) => keys.user)
   keys: Key[];
