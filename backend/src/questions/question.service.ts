@@ -26,7 +26,7 @@ export class QuestionService {
     return question;
   }
 
-  async createQuestion(question: Question): Promise<Question> {
+  async createQuestion(question: CreateQuestionDto): Promise<Question> {
     return this.questionRepository.save(question);
   }
 }

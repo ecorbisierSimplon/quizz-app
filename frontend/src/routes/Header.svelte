@@ -2,25 +2,39 @@
 	import { onMount } from 'svelte';
 	import logo from '$lib/images/logo.png';
 	import { GenerateHtml } from '$lib/packages/GenerateHtml';
+	import { session, sessionKey } from './session';
+	import { getCookie } from 'typescript-cookie';
 
 	onMount(() => {
 		const hostname: string = window.location.origin;
 		GenerateHtml.logo(logo, hostname);
-		GenerateHtml.nav([
-			{ name: 'home', icon: 'fa fa-home', url: `${hostname}/` },
-			{ name: 'Choice quizz', icon: 'fa fa-home', url: `${hostname}/quizz` },
-			{ name: 'Create quizz', icon: 'fa fa-home', url: `${hostname}/create_quizz` },
-			{ name: 'Login', icon: 'fa fa-home', url: `${hostname}/login` },
-			{ name: 'Logout', icon: 'fa fa-home', url: `${hostname}/logout` }
-		]);
-		// GenerateHtml.search(hostname);
+		if (getCookie('session')) {
+			session.set(true);
+			sessionKey.set(getCookie('session') || '');
+		} else {
+			session.set(false);
+			sessionKey.set('');
+		}
 	});
 </script>
 
 <header>
 	<div class="header">
 		<div id="logo" class="logo"></div>
-		<nav class="nav"></nav>
+		<nav class="nav">
+			<ul>
+				<li><a href="/"><i class="fa fa-home"></i> home</a></li>
+				<li><a href="/quizz"><i class="fa fa-clipboard-check"></i> Choice quizz</a></li>
+				{#if $session}<li>
+						<a href="/create_quizz"><i class="fa fa-edit"></i> Create quizz</a>
+					</li>{/if}
+				{#if !$session}<li><a href="/register"><i class="far fa-id-card"></i> Register</a></li>{/if}
+				{#if !$session}<li><a href="/login"><i class="fa fa-user-alt"></i> Login</a></li>{/if}
+				{#if $session}<li>
+						<a href="/logout"><i class="fa fa-user-alt-slash"></i> Logout</a>
+					</li>{/if}
+			</ul>
+		</nav>
 	</div>
 </header>
 <div id="formSearch"></div>

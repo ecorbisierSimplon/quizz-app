@@ -1,48 +1,62 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
+	// import type { ActionData } from '$lib/packages/types';
 	export let data: PageData;
 	export let form: ActionData;
+	const savedPassword: boolean = false;
 </script>
 
 {#if form?.success}
-	<p>You have created Successfully your account</p>
+	<p>{data.first_name}, You have created Successfully your account</p>
 {:else}
 	<form method="POST" action="?/register">
 		<label>
-			last_name:
-			<input type="text" name="last_name" />
-			<!-- <span class="error">{nameError}</span> -->
+			first_name:
+			<input type="text" name="first_name" />
+			{#if form?.nameError != undefined}
+				<span class="error">{form?.nameError}</span>
+			{/if}
 		</label>
 
 		<label>
 			sur_name:
 			<input type="text" name="sur_name" />
+			{#if form?.surnameError != undefined}
+				<span class="error">{form?.surnameError}</span>
+			{/if}
 		</label>
 
 		<label>
 			email:
 			<input type="email" name="email" />
-			<!-- <span class="error">{emailError}</span> -->
+			{#if form?.errorEmail != undefined}
+				<span class="error">{form?.errorEmail}</span>
+			{/if}
 		</label>
 
 		<label>
 			password:
 			<input type="password" name="password" />
-			<!-- <span class="error">{passwordError}</span> -->
+			{#if form?.passwordError != undefined}
+				<span class="error">{form?.passwordError}</span>
+			{/if}
 		</label>
 
 		<label>
 			Confirmer le mot de passe:
-			<input type="password" name="confirmPassword" />
-			<!-- <span class="error">{confirmPasswordError}</span> -->
+			<input type="password" name="password_validation" />
+			{#if form?.password_validationError != undefined}
+				<span class="error">{form?.password_validationError}</span>
+			{/if}
 		</label>
-		<!-- 
-		{#if savedPassword}
-			<label>
-				Mot de passe enregistré (variable d'environnement):
-				<input type="password" name="savedPassword" value={savedPassword} disabled />
-			</label>
-		{/if} -->
+		<label>
+			Mot de passe enregistré (variable d'environnement):
+			<input type="password" name="savedPassword" value={form?.savedPassword} disabled />
+		</label>
+
+		{#if form?.messageError != undefined}
+			<span class="error">{form?.messageError}</span>
+		{/if}
 
 		<button>S'inscrire</button>
 	</form>

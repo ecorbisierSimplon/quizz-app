@@ -19,27 +19,29 @@ export class GenerateHtml {
 
 		if (UL) {
 			navLi.forEach((line: NavLi, index) => {
-				const url: string | undefined = line.url ? line.url : 'javascript:void(0)';
+				if (line.name != undefined) {
+					const url: string | undefined = line.url ? line.url : 'javascript:void(0)';
 
-				let link = new DocumentCreate().ahref({
-					url: url
-				});
+					let link = new DocumentCreate().ahref({
+						url: url
+					});
 
-				if (line.icon) {
-					let ico = new DocumentCreate({
-						className: `${line.icon}`
-					}).i();
+					if (line.icon) {
+						let ico = new DocumentCreate({
+							className: `${line.icon}`
+						}).i();
 
-					link.appendChild(ico);
+						link.appendChild(ico);
+					}
+
+					link.innerHTML += line.name;
+					let LI = new DocumentCreate({
+						idName: line.idName,
+						className: line.className
+					}).li();
+					LI.appendChild(link);
+					UL.appendChild(LI);
 				}
-
-				link.innerHTML += line.name;
-				let LI = new DocumentCreate({
-					idName: line.idName,
-					className: line.className
-				}).li();
-				LI.appendChild(link);
-				UL.appendChild(LI);
 			});
 		}
 	}

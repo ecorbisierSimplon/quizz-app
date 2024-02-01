@@ -6,30 +6,30 @@ import {
   IsOptional,
   IsHexColor,
   IsRgbColor,
+
   IsEmpty,
   IsNotEmpty,
 } from 'class-validator';
 import { Unique } from 'typeorm';
 
-export class CreateQuestionDto {
+export class CreateQuizzDto {
   @IsString()
+  @Unique(['text'])
   text: string;
 
   @IsString()
   @IsOptional()
   image: string;
 
+  @IsHexColor()
+  @IsOptional()
+  color: string;
+
   @IsInt()
   @IsOptional()
   duration: number;
 
-  @IsInt()
+  @IsBoolean()
   @IsOptional()
-  score: number;
-
-  @IsInt()
-  id_quizz: number;
-
-  @IsString()
-  responses: string;
+  visible: boolean;
 }
