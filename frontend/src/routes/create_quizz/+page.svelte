@@ -1,15 +1,26 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Question from './Question.svelte';
 	import Quizz from './Quizz.svelte';
 	import { backgroundColor, calculateBackgroundColor, quizzTitleColor } from './question';
 	import { session } from '../session';
 	import { goto } from '$app/navigation';
-	import type { PageData } from './$types';
+
+	import type { PageData, ActionData } from './$types';
+
+	export let data: PageData;
+	export let form: ActionData;
+
+
+	$: if (data && data.api) {
+		console.log('Inside reactive statement:', data.api);
+	}
+
 	onMount(() => {
 		if (!$session) {
 			goto('/');
 		}
+		console.log('Before load:', data);
+		console.log('Before action:', form);
 	});
 
 	$: $backgroundColor = calculateBackgroundColor($quizzTitleColor);
@@ -19,7 +30,7 @@
 	<title>QuizzOmnes | Create</title>
 	<meta name="description" content="QuizzOmnes" />
 </svelte:head>
-
+{form?.success}
 {#if $session}
 	<div class="main__title cloud-background">
 		<h1
@@ -30,7 +41,7 @@
 			Quizz Create
 		</h1>
 	</div>
-	<Quizz />
+	<Quizz {data} {form} />
 
 	<!-- <Question /> -->
 {/if}

@@ -17,7 +17,7 @@
 
 {#if $session}
 	<p>You is connected !</p>
-	<p>Welcome back, {data.surName}</p>
+	<p>Welcome back, {data.firstName}</p>
 {:else}
 	<form method="POST" action="?/login">
 		<div class="mb-3 mt-3">

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserHash } from 'src/auth/authHash';
+import { Role } from 'src/roles/role.entity';
 
 @Injectable()
 export class UserService {
@@ -13,27 +14,29 @@ export class UserService {
   ) {}
 
   async register(user: CreateUserDto) {
-    // TODO: hash the password and validate the input
-
-    const userCreated = this.userRepository.create();
-    userCreated.sur_name = user.sur_name;
-    userCreated.first_name = user.first_name;
-    userCreated.email = user.email;
-    userCreated.role = user.role;
-
     const existingQuizz = await this.userRepository.findOne({
-      where: { email: userCreated.email },
+      where: { email: user.email },
     });
     if (existingQuizz) {
       throw new NotFoundException('The email already exists.');
     }
 
-    if (user.password != user.passwordValidation) {
+    if (user.password != user.password_validation) {
       throw new NotFoundException("The password isn't identical !");
     }
 
+    const roleRepo: Repository<Role> =
+      this.userRepository.manager.getRepository(Role);
+    const role = roleRepo.findOneBy({ id: 1 });
+
+    const userCreated = new User(); //this.userRepository.create();
+    userCreated.sur_name = user.sur_name;
+    userCreated.first_name = user.first_name;
+    userCreated.email = user.email;
+    userCreated.role = await role;
+
     userCreated.key = UserHash.hashPassword(user.password);
-    console.log(userCreated.key);
+
     return this.userRepository.save(userCreated);
   }
   async testLogin(email: string): Promise<User | undefined> {

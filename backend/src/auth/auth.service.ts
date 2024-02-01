@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
@@ -20,15 +24,17 @@ export class AuthService {
     );
     try {
       if (UserHash.verifyPassword(password, user.key)) {
-        throw new UnauthorizedException();
+        const payload = { sub: user.id, username: user.email };
+        return {
+          access_token: await this.jwtService.signAsync(payload),
+        };
+      } else {
+        throw new NotFoundException(
+          'This login and/or password is incorrect !',
+        );
       }
     } catch (error) {
       throw new UnauthorizedException();
     }
-
-    const payload = { sub: user.id, username: user.email };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
   }
 }

@@ -1,7 +1,16 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { QuizzService } from './quizz.service';
 import { Quizz } from './quizz.entity';
 import { CreateQuizzDto } from './dto/createQuizz.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('quizz')
 export class QuizzController {
@@ -17,8 +26,10 @@ export class QuizzController {
     return this.quizzService.findOneById(parseInt(params.id));
   }
 
-  @Post()
-  async create(@Body() quizz: CreateQuizzDto): Promise<Quizz> {
-    return this.quizzService.create(quizz);
+  @UseGuards(AuthGuard)
+  @Post('/create')
+  async create(@Req() req, @Body() quizz: CreateQuizzDto): Promise<Quizz> {
+    return this.quizzService.create(req, quizz);
+
   }
 }

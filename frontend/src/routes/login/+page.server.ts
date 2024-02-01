@@ -1,11 +1,7 @@
 import type { ActionData, LoginData } from '$lib/packages/types';
 import { fail } from '@sveltejs/kit';
-
-import dotenv from 'dotenv';
 import { getCookie } from 'typescript-cookie';
 import { session } from '../session';
-// import { session } from './control';
-const importJwt = () => import('jsonwebtoken');
 
 const API_URL = process.env.API_URL;
 
@@ -46,10 +42,6 @@ export const actions = {
 			return fail(400, { email, missing: true, errorEmail: 'Password and/or email is invalid !' });
 		}
 
-		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
-		const userString = JSON.stringify(await user);
-		cookies.set('user', userString, { path: '/' });
-
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
 			const response = await fetch(`${API_URL}/auth/login`, {
@@ -58,10 +50,13 @@ export const actions = {
 				body: JSON.stringify({ email, password })
 			});
 			const token = await response.json();
-
+			console.log(token);
 			if (token.access_token) {
 				cookies.set('sessionid', token.access_token, { path: '/' });
 				session.set(false);
+				const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
+				const userString = JSON.stringify(await user);
+				cookies.set('user', userString, { path: '/' });
 				return { success: true };
 			}
 
