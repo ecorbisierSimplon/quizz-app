@@ -1,4 +1,5 @@
 import { writeFileSync } from 'fs';
+import type { formData } from './$types';
 
 const API_URL = process.env.API_URL;
 export async function load({ cookies }) {
@@ -6,17 +7,15 @@ export async function load({ cookies }) {
 }
 
 export const actions = {
-	quizz: async ({ request, context }) => {
-		const { cookie } = context;
-
-		const data = await request.formData();
+	quizz: async ({ request, cookies }) => {
+		const data: formData = await request.formData();
 		const formData = Object.fromEntries(data);
-
+		console.log('server');
 		let fileImg = data.image;
-		const text = data.txt;
+		const text = data.text;
 		const duration = data.duration;
 		const color = data.color;
-		const session = cookie.get('sessionid');
+		const session = cookies.get('sessionid');
 
 		if (fileImg == '' || fileImg == null) {
 			console.log('no file !');
@@ -32,6 +31,16 @@ export const actions = {
 			// };
 		}
 		const image = data.image;
+		console.log(text + ' // ' + data.text);
+		console.log(
+			JSON.stringify({
+				text,
+				image,
+				color,
+				session,
+				duration
+			})
+		);
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
 			const response = await fetch(`${API_URL}/quizz/create`, {

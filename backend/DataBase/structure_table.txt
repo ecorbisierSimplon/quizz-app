@@ -2,10 +2,10 @@ DATABASE : quiz
 
 TABLE users
 id : number - uniq
-surname : string
-lastname : string
+sur_name : string
+last_name : string
 email : string
-email_valid : boolean
+email_validation : boolean
 key : string
 id_role : number
 date_create : datetime
