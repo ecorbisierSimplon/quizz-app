@@ -7,7 +7,6 @@ import {
   IsOptional,
 } from 'class-validator';
 
-
 export class CreateUserDto {
   @IsString()
   sur_name: string;
@@ -28,5 +27,6 @@ export class CreateUserDto {
   @IsInt()
   @Min(0)
   @Max(100)
+  @IsOptional()
   role: number;
 }
