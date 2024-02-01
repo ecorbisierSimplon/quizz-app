@@ -2,7 +2,7 @@
 	"name": "frontend",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "npm run scss & vite dev",
+		"dev": "vite dev",
 		"scss": "sass --watch ./src/scss/styles.scss ./src/css/styles.min.css --style=compressed --source-map",
 		"build": "vite build",
 		"preview": "vite preview",

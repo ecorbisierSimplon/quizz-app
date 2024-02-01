@@ -1,4 +1,3 @@
-import type { ActionData, LoginData } from '$lib/packages/types';
 import { fail } from '@sveltejs/kit';
 import { getCookie } from 'typescript-cookie';
 import { session } from '../session';
