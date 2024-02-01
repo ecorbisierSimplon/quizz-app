@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import logo from '$lib/images/logo.png';
 	import { GenerateHtml } from '$lib/packages/GenerateHtml';
-	import { session } from './session';
+	import { session, sessionKey } from './session';
 	import { getCookie } from 'typescript-cookie';
 
 	onMount(() => {
@@ -10,8 +10,10 @@
 		GenerateHtml.logo(logo, hostname);
 		if (getCookie('session')) {
 			session.set(true);
+			sessionKey.set(getCookie('session') || '');
 		} else {
 			session.set(false);
+			sessionKey.set('');
 		}
 	});
 </script>

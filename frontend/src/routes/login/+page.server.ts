@@ -2,8 +2,6 @@ import type { ActionData, LoginData } from '$lib/packages/types';
 import { fail } from '@sveltejs/kit';
 import { getCookie } from 'typescript-cookie';
 import { session } from '../session';
-// import { session } from './control';
-const importJwt = () => import('jsonwebtoken');
 
 const API_URL = process.env.API_URL;
 

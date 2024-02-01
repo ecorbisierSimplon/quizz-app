@@ -7,15 +7,14 @@ export class Role {
   id: number;
 
   @Column({ length: 255 })
-  sur_name: string;
+  text: string;
 
-  @Column()
+  @Column({ default: 0 })
   rang: number;
 
-  @Column()
+  @Column({ type: 'timestamptz', default: 'Now()' })
   date_create: Date;
 
   @OneToMany(() => User, (user) => user.role)
   users: User[];
 }
-

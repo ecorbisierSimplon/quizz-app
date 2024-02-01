@@ -2,11 +2,12 @@ import { hslaToRgb } from '$lib/packages/Rgba';
 import { writable, type Writable } from 'svelte/store';
 
 const colorDefaut = hslaToRgb('hsla(231, 43%, 65%, 1)');
+console.log(colorDefaut);
 export const backgroundColor = writable<string>('');
 export const quizzTitleColor = writable<string>('');
 
-backgroundColor.set(calculateBackgroundColor(colorDefaut));
-quizzTitleColor.set(colorDefaut);
+await backgroundColor.set(calculateBackgroundColor(colorDefaut));
+await quizzTitleColor.set(colorDefaut);
 
 export function handleColorChange(event: Event) {
 	// Récupérez la couleur sélectionnée depuis l'événement

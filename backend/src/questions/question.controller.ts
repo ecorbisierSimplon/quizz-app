@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Question } from './question.entity';
+import { CreateQuestionDto } from './dto/createQuestion.dto';
 
 @Controller('quiz/questions')
 export class QuestionController {
@@ -17,8 +18,7 @@ export class QuestionController {
   }
 
   @Post()
-  async createQuestion(@Body() question: Question): Promise<Question> {
+  async createQuestion(@Body() question: CreateQuestionDto): Promise<Question> {
     return this.questionService.createQuestion(question);
   }
 }
-
