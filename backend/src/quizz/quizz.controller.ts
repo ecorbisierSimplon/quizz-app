@@ -30,5 +30,6 @@ export class QuizzController {
   @Post('/create')
   async create(@Req() req, @Body() quizz: CreateQuizzDto): Promise<Quizz> {
     return this.quizzService.create(req, quizz);
+
   }
 }

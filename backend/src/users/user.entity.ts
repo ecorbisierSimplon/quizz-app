@@ -26,7 +26,7 @@ export class User {
   @Column({ length: 255 })
   email: string;
 
-  @Column({ length: 500 })
+  @Column({ type: 'varchar', length: 500 })
   key: string;
 
   @Column({ type: 'timestamptz', default: 'Now()' })
@@ -40,6 +40,7 @@ export class User {
 
   @OneToMany(() => Question, (question) => question.user)
   questions: Quizz[];
+
 
   @OneToMany(() => Key, (key) => key.user)
   keys: Key[];

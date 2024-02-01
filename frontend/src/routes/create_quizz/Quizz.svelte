@@ -43,11 +43,7 @@
 			}
 		}
 	};
-	// 	id="quizz"
-	// class="quizz"
-	// name="quizz"
-	// use:enhance
-	// enctype="multipart/form-data"
+
 </script>
 
 {data.api}

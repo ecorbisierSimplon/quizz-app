@@ -4,10 +4,12 @@
 	import { backgroundColor, calculateBackgroundColor, quizzTitleColor } from './question';
 	import { session } from '../session';
 	import { goto } from '$app/navigation';
+
 	import type { PageData, ActionData } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
+
 
 	$: if (data && data.api) {
 		console.log('Inside reactive statement:', data.api);

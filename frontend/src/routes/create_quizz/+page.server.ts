@@ -37,12 +37,15 @@ export const actions = {
 			// Write the file to the static folder
 			writeFileSync(`static/img/${fileObject.name}`, Buffer.from(await fileObject.arrayBuffer()));
 
+
 			// return {
 			// 	success: true
 			// };
 		}
+
 		const image = fileObject.name;
 		console.log(session);
+
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
 			const response = await fetch(`${API_URL}/quizz/create`, {
@@ -51,10 +54,12 @@ export const actions = {
 					'Content-Type': 'application/json',
 					Authorization: 'Bearer ' + session
 				},
+
 				body: JSON.stringify({
 					text,
 					image,
 					color,
+
 					duration,
 					visible: true
 				})
@@ -73,3 +78,4 @@ export const actions = {
 		}
 	}
 } satisfies Actions;
+
