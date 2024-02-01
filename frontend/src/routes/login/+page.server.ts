@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import { getCookie } from 'typescript-cookie';
+import type { PageServerLoad, Actions } from './$types';
+const importJwt = () => import('jsonwebtoken');
 import { session } from '../session';
 
 const API_URL = process.env.API_URL;
@@ -27,8 +28,9 @@ export async function load({ cookies }) {
 	}
 }
 
+
 export const actions = {
-	login: async ({ cookies, request }) => {
+	login: async ({ cookies, request, url }) => {
 		const data = await request.formData();
 		const email = data.get('email');
 		const password = data.get('password');
@@ -40,6 +42,11 @@ export const actions = {
 		} catch (error) {
 			return fail(400, { email, missing: true, errorEmail: 'Password and/or email is invalid !' });
 		}
+
+		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
+		console.log(await user);
+		const userString = JSON.stringify(await user);
+		cookies.set('user', userString, { path: '/' });
 
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
@@ -72,9 +79,12 @@ export const actions = {
 		} catch (error) {
 			console.error('Error during login:', error);
 			return null;
+
 		}
 	}
-};
+	return { success: true };
+} satisfies Actions;
+
 
 export function _getToken(): string | null {
 	getCookie('user');

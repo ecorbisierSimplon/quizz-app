@@ -16,6 +16,7 @@
 </script>
 
 {#if $session}
+
 	<p>You is connected !</p>
 	<p>Welcome back, {data.firstName}</p>
 {:else}
@@ -47,6 +48,7 @@
 		<!-- <button formaction="?/register">Register</button> -->
 	</form>
 {/if}
+
 
 <style lang="scss">
 	form {
