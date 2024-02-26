@@ -24,6 +24,10 @@ export class CreateUserDto {
   @IsOptional()
   password_validation: string;
 
+  @IsString()
+  @IsOptional()
+  password_first: string;
+
   @IsInt()
   @Min(0)
   @Max(100)

@@ -5,33 +5,81 @@ import type { PageServerLoad, Actions } from './$types';
 const API_URL = `http://app-backend:3000`;
 
 export const load: PageServerLoad = async ({ cookies }) => {
-	return { first_name: 'Martin' };
+	const tempResponse = await fetch(`${API_URL}/user/count`, {
+		method: 'GET'
+	});
+	const responses = await tempResponse.json();
+	return { first_name: cookies.get('userName'), count: responses.count };
 };
 export const actions = {
-	register: async ({ request }) => {
+	register: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const formData = await Object.fromEntries(data);
+		const first_name = formData.first_name;
+		const sur_name = formData.sur_name;
 		const email = formData.email;
 		const password = formData.password;
-		const sur_name = formData.sur_name;
-		const first_name = formData.first_name;
+		const password_validation = formData.password_validation;
+		const password_first = formData.password_first;
+		const countResponse = await fetch(`${API_URL}/user/count`, {
+			method: 'GET'
+		});
+		const count = await countResponse.json();
+		let codes: number = 201;
+		let messagesError = {};
+		let testInput: string | null = null;
 
-		if (ValidateForm.validateEmail(email.toString()) != null) {
-			return fail(400, { email, emailError: 'Email required' });
+		testInput = ValidateForm.validateField(first_name.toString(), 'firstname');
+		if (testInput) {
+			codes = 400;
+			messagesError = { ...messagesError, nameError: testInput };
 		}
 
-		if (ValidateForm.validatePassword(password.toString()) != null) {
-			return fail(400, { password, passwordError: 'Password error' });
+		testInput = ValidateForm.validateField(sur_name.toString(), 'lastname');
+		if (testInput) {
+			codes = 400;
+			messagesError = { ...messagesError, surnameError: testInput };
 		}
 
-		if (ValidateForm.validateField(sur_name.toString(), 'surname')) {
-			return fail(400, { sur_name, surnameError: 'required' });
+		testInput = ValidateForm.validateEmail(email.toString());
+		if (testInput) {
+			codes = 400;
+			messagesError = { ...messagesError, emailError: testInput };
 		}
 
-		if (ValidateForm.validateField(first_name.toString(), 'firstname')) {
-			return fail(400, { first_name, nameError: 'required' });
+		testInput = ValidateForm.validatePassword(password.toString());
+		if (testInput) {
+			codes = 400;
+			messagesError = { ...messagesError, passwordError: testInput };
 		}
-		console.log(JSON.stringify(formData));
+
+		// testInput = ValidateForm.validatePassword(password_validation.toString());
+		// if (testInput) {
+		// 	codes = 400;
+		// 	messagesError = { ...messagesError, password_validationError: testInput };
+		// }
+
+		if (password.toString() != password_validation.toString()) {
+			codes = 400;
+			messagesError = {
+				...messagesError,
+				password_validationError: "The passwords isn't identical!"
+			};
+		}
+		try {
+			testInput = ValidateForm.validatePassword(password_first.toString());
+			if (testInput && count.count === 0) {
+				codes = 400;
+				messagesError = {
+					...messagesError,
+					passwordFirstError: testInput
+				};
+			}
+		} catch (error) {}
+
+		if (codes === 400) {
+			return fail(codes, messagesError);
+		}
 		const tempResponse = await fetch(`${API_URL}/user/register`, {
 			method: 'POST',
 			headers: {
@@ -40,14 +88,15 @@ export const actions = {
 			body: JSON.stringify(formData)
 		});
 
-		let response = await tempResponse.json();
-		console.log(response);
+		const responses = await tempResponse.json();
 		try {
-			response = response.user;
+			if (responses.statusCode != 201) {
+				return fail(400, { missing: true, messageError: responses.message });
+			}
 		} catch (error) {
 			return fail(400, { missing: true, messageError: 'A field does not completed !' });
 		}
-
+		cookies.set('userName', first_name as string, { path: '/' });
 		return { success: true };
 	}
 } satisfies Actions;
