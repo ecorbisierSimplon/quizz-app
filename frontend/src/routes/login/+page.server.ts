@@ -88,7 +88,7 @@ export const actions = {
 			return null;
 		}
 	}
-	// return { success: true };
+
 } satisfies Actions;
 
 export function _getToken(): string | null {
