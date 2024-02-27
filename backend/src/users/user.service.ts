@@ -5,6 +5,7 @@ import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserHash } from 'src/auth/authHash';
 import { Role } from 'src/roles/role.entity';
+// import { RoleService } from 'src/roles/role.service';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,9 @@ export class UserService {
 
   async register(user: CreateUserDto) {
     const count = await this.countUser();
+    if (count === 0) {
+      // await this.roleService.createRoleTableAndInsertData();
+    }
     if (count === 0 && user.password_first != process.env.PASS) {
       throw new BadRequestException(
         '1st login password or email are incorrect!',
@@ -69,6 +73,7 @@ export class UserService {
       where: { email: email },
     });
   }
+
   countUser() {
     return this.userRepository.createQueryBuilder('users').getCount();
   }

@@ -1,13 +1,20 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { PageData, ActionData } from './$types';
-	// import type { ActionData } from '$lib/packages/types';
 	export let data: PageData;
 	export let form: ActionData;
 	const password_first: boolean = false;
 </script>
 
 {#if form?.success}
-	<p>{data.first_name}, You have created Successfully your account</p>
+	<div class="modals">
+		<div class="">
+			<h3>Yous is registered !</h3>
+			<p>Welcome back, {data.first_name}.</p>
+			<p>You have created Successfully your account, please log in!</p>
+			<button class="plus" on:click={() => goto('/login')}>Ok</button>
+		</div>
+	</div>
 {:else}
 	<form method="POST" action="?/register">
 		<div class="flex">

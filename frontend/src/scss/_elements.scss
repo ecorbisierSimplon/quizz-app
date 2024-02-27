@@ -192,3 +192,33 @@ form {
 	text-shadow: 0 0 3px #fd0000;
 	margin: 10px 0;
 }
+
+div.modals {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(80, 80, 80, 0.555);
+
+	& > div {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-items: center;
+		width: $w;
+		height: $h;
+		padding: 10px;
+		left: calc(calc(100vw / 2) - calc($w / 2));
+		top: calc(calc(100vh / 2) - calc($h / 2));
+		border-radius: 15px;
+		background-image: radial-gradient(circle, hsl(231, 40%, 25%) 0%, hsl(231, 47%, 17%) 50%);
+		box-shadow: 3px 7px 9px 3px hsl(231deg 41% 28% / 41%);
+		h3 {
+			color: rgb(207, 206, 206);
+			margin: 0 auto;
+		}
+	}
+}

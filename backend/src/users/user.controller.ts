@@ -54,7 +54,6 @@ export class UserController {
   @Post('login')
   async login(@Body() user: User): Promise<any> {
     try {
-      console.log(user.email);
       const loginCreated = await this.userService.testLogin(user.email);
       return loginCreated;
     } catch (error) {
