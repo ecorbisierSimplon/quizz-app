@@ -10,7 +10,6 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-
 	$: if (data && data.api) {
 		console.log('Inside reactive statement:', data.api);
 	}
@@ -19,8 +18,6 @@
 		if (!$session) {
 			goto('/');
 		}
-		console.log('Before load:', data);
-		console.log('Before action:', form);
 	});
 
 	$: $backgroundColor = calculateBackgroundColor($quizzTitleColor);
@@ -30,7 +27,6 @@
 	<title>QuizzOmnes | Create</title>
 	<meta name="description" content="QuizzOmnes" />
 </svelte:head>
-{form?.success}
 {#if $session}
 	<div class="main__title cloud-background">
 		<h1
