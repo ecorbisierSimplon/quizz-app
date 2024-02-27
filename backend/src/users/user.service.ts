@@ -15,7 +15,6 @@ export class UserService {
 
   async register(user: CreateUserDto) {
     const count = await this.countUser();
-    console.log(process.env.PASS + ' // ' + user.password_first);
     if (count === 0 && user.password_first != process.env.PASS) {
       throw new BadRequestException(
         '1st login password or email are incorrect!',
