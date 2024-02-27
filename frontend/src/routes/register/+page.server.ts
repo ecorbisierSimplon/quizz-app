@@ -53,11 +53,7 @@ export const actions = {
 			messagesError = { ...messagesError, passwordError: testInput };
 		}
 
-		// testInput = ValidateForm.validatePassword(password_validation.toString());
-		// if (testInput) {
-		// 	codes = 400;
-		// 	messagesError = { ...messagesError, password_validationError: testInput };
-		// }
+
 
 		if (password.toString() != password_validation.toString()) {
 			codes = 400;
