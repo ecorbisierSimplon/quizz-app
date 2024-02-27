@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from '../login/$types';
 import { session } from '../session';
 
@@ -11,8 +10,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions = {
-	logout: async ({ cookies, request }) => {
-		console.log('action');
+	logout: async ({ cookies }) => {
 		cookies.set('sessionid', '', { path: '/' });
 		cookies.set('user', '', { path: '/' });
 		return { success: true };
