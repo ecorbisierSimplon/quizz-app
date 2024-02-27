@@ -5,8 +5,11 @@ form {
 	font-weight: normal;
 	line-height: 1.625;
 	padding: 16px;
-	max-width: 80%;
+	max-width: 80vw;
 	margin: 0 auto;
+	@include mobil-max {
+		max-width: 95vw;
+	}
 
 	label {
 		color: hsl(0deg 0.69% 71.57%);

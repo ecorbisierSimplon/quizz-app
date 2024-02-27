@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 const importJwt = () => import('jsonwebtoken');
 import { session } from '../session';
+import { getCookie } from 'typescript-cookie';
 
 const API_URL = process.env.API_URL;
 
@@ -35,15 +36,22 @@ export const actions = {
 		const password = data.get('password');
 
 		const tempResponse = await fetch(`${API_URL}/user/email/${email}`);
-		let response = await tempResponse.json();
+		const responses = await tempResponse.json();
 		try {
-			response = response.user.email;
+			const response: string = responses.user.email;
+			if (response === undefined) {
+				return fail(400, {
+					email,
+					missing: true,
+					errorEmail: 'Password and/or email is invalid !'
+				});
+			}
 		} catch (error) {
 			return fail(400, { email, missing: true, errorEmail: 'Password and/or email is invalid !' });
 		}
 
 		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
-		console.log(await user);
+
 		const userString = JSON.stringify(await user);
 		cookies.set('user', userString, { path: '/' });
 
@@ -80,6 +88,7 @@ export const actions = {
 			return null;
 		}
 	}
+
 } satisfies Actions;
 
 export function _getToken(): string | null {
