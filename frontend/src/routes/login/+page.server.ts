@@ -28,7 +28,6 @@ export async function load({ cookies }) {
 	}
 }
 
-
 export const actions = {
 	login: async ({ cookies, request, url }) => {
 		const data = await request.formData();
@@ -79,12 +78,9 @@ export const actions = {
 		} catch (error) {
 			console.error('Error during login:', error);
 			return null;
-
 		}
 	}
-	return { success: true };
 } satisfies Actions;
-
 
 export function _getToken(): string | null {
 	getCookie('user');
