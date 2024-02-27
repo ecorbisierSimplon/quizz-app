@@ -6,8 +6,8 @@ console.log(colorDefaut);
 export const backgroundColor = writable<string>('');
 export const quizzTitleColor = writable<string>('');
 
-await backgroundColor.set(calculateBackgroundColor(colorDefaut));
-await quizzTitleColor.set(colorDefaut);
+backgroundColor.set(calculateBackgroundColor(colorDefaut));
+quizzTitleColor.set(colorDefaut);
 
 export function handleColorChange(event: Event) {
 	// Récupérez la couleur sélectionnée depuis l'événement
