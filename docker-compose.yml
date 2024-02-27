@@ -40,7 +40,7 @@ services:
       - ./frontend/static:/app/static
     depends_on:
       - app-backend
-    command: npm run dev
+    command: npm run dev --host
 
   db:
     container_name: postgres_quizz

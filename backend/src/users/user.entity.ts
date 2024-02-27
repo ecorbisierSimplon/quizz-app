@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToOne,
   Unique,
+  Index,
 } from 'typeorm';
 import { Quizz } from '../quizz/quizz.entity';
 import { Role } from '../roles/role.entity';
@@ -24,6 +25,7 @@ export class User {
   first_name: string;
 
   @Column({ length: 255 })
+  @Index()
   email: string;
 
   @Column({ type: 'varchar', length: 500 })
@@ -40,7 +42,6 @@ export class User {
 
   @OneToMany(() => Question, (question) => question.user)
   questions: Quizz[];
-
 
   @OneToMany(() => Key, (key) => key.user)
   keys: Key[];
