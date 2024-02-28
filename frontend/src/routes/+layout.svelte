@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../css/styles.min.css';
+	import '../scss/styles.scss';
 	import Header from './Header.svelte';
 </script>
 

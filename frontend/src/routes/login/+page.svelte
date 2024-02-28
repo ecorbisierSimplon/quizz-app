@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import type { ActionData, LoginData } from '$lib/packages/types';
 	import { session } from '../session';
+	import { goto } from '$app/navigation';
+
 	export let data: LoginData;
 	export let form: ActionData;
 	onMount(() => {
@@ -16,9 +18,13 @@
 </script>
 
 {#if $session}
-
-	<p>You is connected !</p>
-	<p>Welcome back, {data.firstName}</p>
+	<div class="modals">
+		<div class="">
+			<h3>Yous is connected !</h3>
+			<p>Welcome back, {data.firstName}</p>
+			<button class="plus" on:click={() => goto('/')}>Ok</button>
+		</div>
+	</div>
 {:else}
 	<form method="POST" action="?/login">
 		<div class="mb-3 mt-3">
@@ -48,7 +54,6 @@
 		<!-- <button formaction="?/register">Register</button> -->
 	</form>
 {/if}
-
 
 <style lang="scss">
 	form {

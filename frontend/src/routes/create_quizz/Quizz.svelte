@@ -43,12 +43,9 @@
 			}
 		}
 	};
-
 </script>
 
-{data.api}
 <form method="POST" action="/create_quizz?/create">
-	{form?.success}<br />
 	<input name="session" bind:value={$sessionKey} hidden />
 	<div class="title">
 		<div>
@@ -78,6 +75,7 @@
 				</label>
 			</div>
 			<!-- svelte-ignore a11y-img-redundant-alt -->
+			<!-- svelte-ignore a11y-missing-attribute -->
 			<img id="output" />
 		</div>
 		<div class="options">
