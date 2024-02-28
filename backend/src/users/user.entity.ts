@@ -10,7 +10,7 @@ import {
 import { Quizz } from '../quizz/quizz.entity';
 import { Role } from '../roles/role.entity';
 import { Key } from '../keys/key.entity';
-import { Question } from 'src/questions/question.entity';
+import { Question } from '../questions/question.entity';
 
 @Entity()
 @Unique(['email'])
