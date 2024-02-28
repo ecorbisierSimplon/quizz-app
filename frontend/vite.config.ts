@@ -7,6 +7,11 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	server: {
-		// port: '8000'
+		host: true,
+		port: 8081
+	},
+	preview: {
+		host: true,
+		port: 8082
 	}
 });

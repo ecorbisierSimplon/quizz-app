@@ -19,7 +19,7 @@ export class UserController {
 
   @Get('id/:id')
   async findOne(@Param() params: { id: string | null }) {
-    return this.userService.findOneById(parseInt(params.id));
+    return await this.userService.findOneById(parseInt(params.id));
   }
 
   @Get('email/:email')
@@ -33,15 +33,27 @@ export class UserController {
     }
   }
 
+  @Get('count')
+  async CountQueuingStrategy() {
+    const count = await this.userService.countUser();
+    return { count: count };
+  }
+
   @Post('register')
-  async register(@Body() user: CreateUserDto): Promise<User> {
-    return this.userService.register(user);
+  async register(
+    @Body() user: CreateUserDto,
+  ): Promise<User | { statusCode: number }> {
+    const registerUser = await this.userService.register(user);
+    if (registerUser) {
+      return { statusCode: 201 };
+    } else {
+      return { statusCode: 400 };
+    }
   }
 
   @Post('login')
   async login(@Body() user: User): Promise<any> {
     try {
-      console.log(user.email);
       const loginCreated = await this.userService.testLogin(user.email);
       return loginCreated;
     } catch (error) {

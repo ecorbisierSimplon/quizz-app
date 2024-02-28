@@ -1,70 +1,119 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { PageData, ActionData } from './$types';
-	// import type { ActionData } from '$lib/packages/types';
 	export let data: PageData;
 	export let form: ActionData;
-	const savedPassword: boolean = false;
+	const password_first: boolean = false;
 </script>
 
 {#if form?.success}
-	<p>{data.first_name}, You have created Successfully your account</p>
+	<div class="modals">
+		<div class="">
+			<h3>Yous is registered !</h3>
+			<p>Welcome back, {data.first_name}.</p>
+			<p>You have created Successfully your account, please log in!</p>
+			<button class="plus" on:click={() => goto('/login')}>Ok</button>
+		</div>
+	</div>
 {:else}
 	<form method="POST" action="?/register">
-		<label>
-			first_name:
-			<input type="text" name="first_name" />
-			{#if form?.nameError != undefined}
-				<span class="error">{form?.nameError}</span>
-			{/if}
-		</label>
-
-		<label>
-			sur_name:
-			<input type="text" name="sur_name" />
-			{#if form?.surnameError != undefined}
-				<span class="error">{form?.surnameError}</span>
-			{/if}
-		</label>
-
-		<label>
-			email:
-			<input type="email" name="email" />
-			{#if form?.errorEmail != undefined}
-				<span class="error">{form?.errorEmail}</span>
-			{/if}
-		</label>
-
-		<label>
-			password:
-			<input type="password" name="password" />
-			{#if form?.passwordError != undefined}
-				<span class="error">{form?.passwordError}</span>
-			{/if}
-		</label>
-
-		<label>
-			Confirmer le mot de passe:
-			<input type="password" name="password_validation" />
-			{#if form?.password_validationError != undefined}
-				<span class="error">{form?.password_validationError}</span>
-			{/if}
-		</label>
-		<label>
-			Mot de passe enregistré (variable d'environnement):
-			<input type="password" name="savedPassword" value={form?.savedPassword} disabled />
-		</label>
-
-		{#if form?.messageError != undefined}
-			<span class="error">{form?.messageError}</span>
+		<div class="flex">
+			<div class="mb-1">
+				<label class="form-label">
+					First name:
+					<input type="text" name="first_name" class="form-control" />
+					{#if form?.nameError != undefined}
+						<span class="error">{form?.nameError}</span>
+					{/if}
+				</label>
+			</div>
+			<div class="mb-1">
+				<label class="form-label">
+					Last name:
+					<input type="text" name="sur_name" class="form-control" />
+					{#if form?.surnameError != undefined}
+						<span class="error">{form?.surnameError}</span>
+					{/if}
+				</label>
+			</div>
+		</div>
+		<div>
+			<div class="mb-1">
+				<label class="form-label">
+					Email:
+					<input type="email" name="email" class="form-control" />
+					{#if form?.errorEmail != undefined}
+						<span class="error">{form?.errorEmail}</span>
+					{/if}
+				</label>
+			</div>
+		</div>
+		<div class="flex">
+			<div class="mb-1">
+				<label class="form-label">
+					Password:
+					<input type="password" name="password" class="form-control" />
+					{#if form?.passwordError != undefined}
+						<span class="error">{form?.passwordError}</span>
+					{/if}
+				</label>
+			</div>
+			<div class="mb-1">
+				<label class="form-label">
+					Confirm password:
+					<input type="password" name="password_validation" class="form-control" />
+					{#if form?.password_validationError != undefined}
+						<span class="error">{form?.password_validationError}</span>
+					{/if}
+				</label>
+			</div>
+		</div>
+		{#if data.count == 0}
+			<div class="flex">
+				<div class="mb-1">
+					<label class="form-label">
+						Password first connexion:
+						<input type="password" name="password_first" class="form-control" />
+						{#if form?.passwordFirstError != undefined}
+							<span class="error">{form?.passwordFirstError}</span>
+						{/if}
+					</label>
+				</div>
+				<div></div>
+			</div>
 		{/if}
-
+		<div class="mb-1">
+			{#if form?.messageError != undefined}
+				<span class="error">{form?.messageError}</span>
+			{/if}
+		</div>
 		<button>S'inscrire</button>
 	</form>
 {/if}
 
-<style>
+<style lang="scss">
 	.error {
 		color: red;
 		font-size: 0.8rem;
+	}
+	label {
+		width: 100%;
+	}
+	form {
+		& > div {
+			& > div {
+				margin-right: 10px;
+				min-width: 300px;
+			}
+		}
+	}
+	.flex {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		& > div {
+			flex: 1;
+		}
 	}
 </style>
