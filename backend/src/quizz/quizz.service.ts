@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quizz } from './quizz.entity';
 import { CreateQuizzDto } from './dto/createQuizz.dto';
-import { User } from 'src/users/user.entity';
-import { AppModule } from 'src/app.module';
+import { User } from '../users/user.entity';
+import { AppModule } from '../app.module';
 
 @Injectable()
 export class QuizzService {

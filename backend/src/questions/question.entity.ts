@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Quizz } from '../quizz/quizz.entity';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Question {
@@ -15,6 +15,9 @@ export class Question {
 
   @Column({ length: 500 })
   text: string;
+
+  //  @Column({ length: 500 })
+  //  answer: string;
 
   @Column({ length: 1500 })
   responses: string;
