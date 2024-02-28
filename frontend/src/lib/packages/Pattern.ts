@@ -24,10 +24,7 @@ export class ValidateForm {
 		}
 		if (!passPattern.test(password.trim())) {
 			return (
-				passPattern.test(password.trim()) +
-				' ' +
-				password.trim() +
-				' The password must contain at least one uppercase, lowercase, number and special character @#.$%^&+=! !'
+					' The password must contain at least one uppercase, lowercase, number and special character @#.$%^&+=! !'
 			);
 		}
 		return null;
