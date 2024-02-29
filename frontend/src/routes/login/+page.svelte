@@ -9,9 +9,13 @@
 	export let form: ActionData;
 	onMount(() => {
 		if (data.login) {
-			setCookie('session', data.sessionid, { expires: 10, path: '/' });
-			setCookie('surname', data.surName, { expires: 10, path: '/' });
-			setCookie('firstname', data.firstName, { expires: 10, path: '/' });
+			let cookieOptions: { expires?: number; path: string } = { path: '/' };
+			if (data.remember === 'on') {
+				cookieOptions = { expires: 10, ...cookieOptions };
+			}
+			setCookie('session', data.sessionid, cookieOptions);
+			setCookie('surname', data.surName, cookieOptions);
+			setCookie('firstname', data.firstName, cookieOptions);
 			session.set(true);
 		}
 	});

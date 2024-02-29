@@ -6,7 +6,6 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { UserHash } from '../auth/authHash';
 import { Role } from '../roles/role.entity';
 
-
 @Injectable()
 export class UserService {
   constructor(
@@ -24,10 +23,10 @@ export class UserService {
         '1st login password or email are incorrect!',
       );
     }
-    const existingQuizz = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: { email: user.email },
     });
-    if (existingQuizz) {
+    if (existingUser) {
       throw new BadRequestException('The email already exists!');
     }
 

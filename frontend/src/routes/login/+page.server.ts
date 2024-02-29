@@ -11,12 +11,12 @@ export async function load({ cookies }) {
 	const sessionid = cookies.get('sessionid');
 	if (userString) {
 		const users: { first_name: string; sur_name: string } = JSON.parse(userString).user;
-
 		if (users && users.first_name) {
-			const firstName = users.first_name;
-			const surName = users.sur_name;
-
-			return { firstName, surName, login: true, sessionid };
+			const firstName: string = users.first_name as string;
+			const surName: string = users.sur_name as string;
+			const remember: string = JSON.parse(userString).remember;
+			console.log(JSON.parse(userString));
+			return { firstName, surName, login: true, sessionid, remember };
 		} else {
 			// Gérez le cas où la propriété `last_name` n'est pas définie ou si l'objet `users` est null/undefined
 			console.error("Erreur: Impossible d'obtenir le nom de l'utilisateur.");
@@ -32,8 +32,9 @@ export async function load({ cookies }) {
 export const actions = {
 	login: async ({ cookies, request, url }) => {
 		const data = await request.formData();
-		const email = data.get('email');
-		const password = data.get('password');
+		const email: string = data.get('email') as string;
+		const password: string = data.get('password') as string;
+		const remember: string = data.get('remember') as string;
 
 		const tempResponse = await fetch(`${API_URL}/user/email/${email}`);
 		const responses = await tempResponse.json();
@@ -51,8 +52,8 @@ export const actions = {
 		}
 
 		const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
-
-		const userString = JSON.stringify(await user);
+		const userRemember = { ...(await user), remember };
+		const userString = JSON.stringify(await userRemember);
 		cookies.set('user', userString, { path: '/' });
 
 		try {
@@ -66,9 +67,10 @@ export const actions = {
 			console.log(token);
 			if (token.access_token) {
 				cookies.set('sessionid', token.access_token, { path: '/' });
+				// cookies.set('remember')
 				session.set(false);
 				const user = (await fetch(`${API_URL}/user/email/${email}`)).json();
-				const userString = JSON.stringify(await user);
+				const userString = JSON.stringify(await userRemember);
 				cookies.set('user', userString, { path: '/' });
 				return { success: true };
 			}
@@ -88,7 +90,6 @@ export const actions = {
 			return null;
 		}
 	}
-
 } satisfies Actions;
 
 export function _getToken(): string | null {

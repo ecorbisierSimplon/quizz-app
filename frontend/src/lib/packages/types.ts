@@ -16,6 +16,7 @@ export interface LoginData {
 	sessionid?: string;
 	surName?: string;
 	firstName?: string;
+	remember?: string;
 }
 export interface ActionData {
 	success: boolean;
