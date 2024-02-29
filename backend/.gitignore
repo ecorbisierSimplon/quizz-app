@@ -37,3 +37,4 @@ lerna-debug.log*
 /DataBase/postgres-data
 
 /node_modules
+/public
