@@ -8,11 +8,11 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions = {
-	create: async ({ cookies, request }) => {
+	create: async ({ request }) => {
 		const data = await request.formData();
 		const formData = await Object.fromEntries(data);
 
-		let fileImgData = (await formData.image) as unknown;
+		const fileImgData = (await formData.image) as unknown;
 		const text = await formData.text;
 		const duration = Number(await formData.duration);
 		const color = await formData.color;
@@ -32,11 +32,13 @@ export const actions = {
 		};
 
 		// Affichage de l'objet File créé
-
 		if (fileObject.name != '' && fileObject.name != null) {
+			console.log(API_URL + `/static/img/${fileObject.name}`);
 			// Write the file to the static folder
-			writeFileSync(`static/img/${fileObject.name}`, Buffer.from(await fileObject.arrayBuffer()));
-
+			writeFileSync(
+				API_URL + `/static/img/${fileObject.name}`,
+				Buffer.from(await fileObject.arrayBuffer())
+			);
 
 			// return {
 			// 	success: true
@@ -44,10 +46,18 @@ export const actions = {
 		}
 
 		const image = fileObject.name;
-		console.log(session);
+		console.log(fileImgData);
 
 		try {
 			// Faites une requête d'authentification au backend (par exemple, avec fetch ou axios)
+			const body = JSON.stringify({
+				text,
+				image,
+				color,
+				duration,
+				visible: true
+			});
+			console.log(body);
 			const response = await fetch(`${API_URL}/quizz/create`, {
 				method: 'POST',
 				headers: {
@@ -55,14 +65,7 @@ export const actions = {
 					Authorization: 'Bearer ' + session
 				},
 
-				body: JSON.stringify({
-					text,
-					image,
-					color,
-
-					duration,
-					visible: true
-				})
+				body
 			});
 			const token = await response.json();
 			console.log(token);
@@ -78,4 +81,3 @@ export const actions = {
 		}
 	}
 } satisfies Actions;
-
