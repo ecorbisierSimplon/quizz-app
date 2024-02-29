@@ -24,40 +24,7 @@ body {
 	min-height: 100vh;
 }
 
-header {
-	margin: 10px 20px;
-	@include mobil-max {
-		margin: 5px;
-		margin-bottom: 15px;
-	}
-	.header {
-		display: flex;
-		max-width: 800px;
-		justify-content: space-between;
-		flex-wrap: nowrap;
-		flex-direction: row;
-		border: 5.5px solid #73778c;
-		border-radius: 15px;
-		padding: 15px;
-		margin: 0 auto;
-		@include mobil-max {
-			padding: 5px;
-		}
-		.logo {
-			display: flex;
-			align-items: center;
-			margin: auto 10px;
-			@include gd-screen-min {
-				margin: auto 80px;
-			}
-			img {
-				width: 100%;
-				min-width: 100px;
-				max-width: 200px;
-			}
-		}
-	}
-}
+
 a {
 	text-decoration: none;
 }

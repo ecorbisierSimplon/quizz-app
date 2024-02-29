@@ -1,11 +1,4 @@
-import {
-  IsString,
-  IsEmail,
-  IsInt,
-  Min,
-  Max,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsEmail, IsInt, Min, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -30,7 +23,6 @@ export class CreateUserDto {
 
   @IsInt()
   @Min(0)
-  @Max(100)
   @IsOptional()
   role: number;
 }

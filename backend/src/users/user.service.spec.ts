@@ -38,8 +38,11 @@ describe('UserService', () => {
         email: 'test@example.com',
         password: 'password',
         password_validation: 'password',
+        password_first: 'PassW0rd!',
       };
-      await expect(service.register(user)).rejects.toThrow('The email already exists.');
+      await expect(service.register(user)).rejects.toThrow(
+        'The email already exists.',
+      );
     });
 
     it('should throw an error if passwords do not match', async () => {
@@ -51,11 +54,12 @@ describe('UserService', () => {
         email: 'test@example.com',
         password: 'password',
         password_validation: 'differentPassword',
+        password_first: 'PassW0rd!',
       };
-      await expect(service.register(user)).rejects.toThrow("The password isn't identical !");
+      await expect(service.register(user)).rejects.toThrow(
+        "The password isn't identical !",
+      );
     });
-
-    
   });
 
   describe('testLogin', () => {
@@ -71,5 +75,4 @@ describe('UserService', () => {
       expect(await service.testLogin('test@example.com')).toBeUndefined();
     });
   });
-
-  });
+});
