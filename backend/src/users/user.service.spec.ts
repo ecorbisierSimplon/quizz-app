@@ -45,10 +45,9 @@ describe('UserService', () => {
         email: 'test@example.com',
         password: 'password',
         password_validation: 'password',
+
         password_first: 'password',
       };
-
-      
       await expect(service.register(user)).rejects.toThrow('The email already exists!');
     });
 
@@ -70,9 +69,10 @@ describe('UserService', () => {
         password_validation: 'differentpassword', 
         password_first: 'password',
       };
-
       
       await expect(service.register(user)).rejects.toThrow('1st login password or email are incorrect!');
     });
   });
+
 });
+

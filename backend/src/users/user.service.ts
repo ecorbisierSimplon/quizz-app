@@ -21,10 +21,10 @@ export class UserService {
         '1st login password or email are incorrect!',
       );
     }
-    const existingQuizz = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: { email: user.email },
     });
-    if (existingQuizz) {
+    if (existingUser) {
       throw new BadRequestException('The email already exists!');
     }
 
