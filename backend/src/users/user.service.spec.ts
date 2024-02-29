@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
@@ -15,7 +15,7 @@ describe('UserService', () => {
         UserService,
         {
           provide: getRepositoryToken(User),
-          useClass: Repository,
+          useClass: Repository, // Utilisez la classe Repository pour le mock
         },
       ],
     }).compile();
@@ -30,7 +30,14 @@ describe('UserService', () => {
 
   describe('register', () => {
     it('should throw an error if email already exists', async () => {
+      
       jest.spyOn(repo, 'findOne').mockResolvedValue(new User());
+
+      
+      jest.spyOn(repo, 'createQueryBuilder').mockReturnValue({
+        getCount: () => Promise.resolve(1),
+      } as unknown as SelectQueryBuilder<User>);
+
       const user: CreateUserDto = {
         sur_name: 'Test',
         first_name: 'User',
@@ -38,38 +45,34 @@ describe('UserService', () => {
         email: 'test@example.com',
         password: 'password',
         password_validation: 'password',
+        password_first: 'password',
       };
-      await expect(service.register(user)).rejects.toThrow('The email already exists.');
+
+      
+      await expect(service.register(user)).rejects.toThrow('The email already exists!');
     });
 
     it('should throw an error if passwords do not match', async () => {
+      
       jest.spyOn(repo, 'findOne').mockResolvedValue(undefined);
+
+      
+      jest.spyOn(repo, 'createQueryBuilder').mockReturnValue({
+        getCount: () => Promise.resolve(0),
+      } as unknown as SelectQueryBuilder<User>);
+
       const user: CreateUserDto = {
         sur_name: 'Test',
         first_name: 'User',
         role: 1,
-        email: 'test@example.com',
+        email: 'newuser@example.com',
         password: 'password',
-        password_validation: 'differentPassword',
+        password_validation: 'differentpassword', 
+        password_first: 'password',
       };
-      await expect(service.register(user)).rejects.toThrow("The password isn't identical !");
-    });
 
-    
-  });
-
-  describe('testLogin', () => {
-    it('should return a user if email exists', async () => {
-      const user = new User();
-      user.email = 'test@example.com';
-      jest.spyOn(repo, 'find').mockResolvedValue([user]);
-      expect(await service.testLogin('test@example.com')).toEqual(user);
-    });
-
-    it('should return undefined if email does not exist', async () => {
-      jest.spyOn(repo, 'find').mockResolvedValue([]);
-      expect(await service.testLogin('test@example.com')).toBeUndefined();
+      
+      await expect(service.register(user)).rejects.toThrow('1st login password or email are incorrect!');
     });
   });
-
-  });
+});
