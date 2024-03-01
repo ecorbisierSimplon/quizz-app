@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { onMount } from 'svelte';
+	// import { enhance } from '$app/forms';
+	// import { onMount } from 'svelte';
 	import { quizzTitleColor, handleColorChange } from './question';
 	import { sessionKey } from '../session';
 
@@ -45,7 +45,7 @@
 	};
 </script>
 
-<form method="POST" action="/create_quizz?/create">
+<form method="POST" enctype="multipart/form-data" action="/create_quizz?/create">
 	<input name="session" bind:value={$sessionKey} hidden />
 	<div class="title">
 		<div>
@@ -63,8 +63,8 @@
 			<div>
 				<input
 					accept="image/*"
-					on:change={(event) => loadFile(event)}
 					bind:files
+					on:change={(event) => loadFile(event)}
 					id="avatar"
 					name="image"
 					class="form-control input-file"
