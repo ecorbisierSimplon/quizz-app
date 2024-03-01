@@ -1,7 +1,8 @@
 <script lang="ts">
+	import Question from './Question.svelte';
 	// import { enhance } from '$app/forms';
 	// import { onMount } from 'svelte';
-	import { quizzTitleColor, handleColorChange } from './question';
+	import { quizzTitleColor, handleColorChange, backgroundColor } from './question';
 	import { sessionKey } from '../session';
 
 	import type { PageData, ActionData } from './$types';
@@ -45,9 +46,16 @@
 	};
 </script>
 
-{form?.success}
 {#if form?.success}
-	<span>{form?.text}</span>
+	<h2
+		style="background-color: {$backgroundColor};
+				   box-shadow: 0 0 10px 9px {$backgroundColor};"
+	>
+		{form?.text}
+	</h2>
+	<button class="question__plus plus" type="submit" title="Add question !">
+		<i class="fas fa-plus"></i>
+	</button>
 {:else}
 	<form method="POST" enctype="multipart/form-data" action="/create_quizz?/create">
 		<input name="session" bind:value={$sessionKey} hidden />
@@ -147,5 +155,10 @@
 	// et on masque le input
 	.input-file {
 		display: none;
+	}
+
+	button.question_plus {
+		float: right;
+		margin: 50px 20px 0 0;
 	}
 </style>
