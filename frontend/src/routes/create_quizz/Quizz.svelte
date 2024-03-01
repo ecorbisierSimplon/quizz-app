@@ -2,7 +2,12 @@
 	import Question from './Question.svelte';
 	// import { enhance } from '$app/forms';
 	// import { onMount } from 'svelte';
-	import { quizzTitleColor, handleColorChange, backgroundColor } from './question';
+	import {
+		quizzTitleColor,
+		handleColorChange,
+		backgroundColor,
+		calculateBackgroundColor
+	} from './question';
 	import { sessionKey } from '../session';
 
 	import type { PageData, ActionData } from './$types';
@@ -12,6 +17,10 @@
 
 	let quizzTitle = '';
 	let files: FileList;
+
+	$backgroundColor = $backgroundColor
+		? calculateBackgroundColor(form?.color as string)
+		: $backgroundColor;
 
 	$: if (files) {
 		// Note that `files` is of type `FileList`, not an Array:
@@ -157,8 +166,10 @@
 		display: none;
 	}
 
-	button.question_plus {
-		float: right;
-		margin: 50px 20px 0 0;
+	button {
+		&.question__plus {
+			float: right;
+			margin: 50px 20px 0 0;
+		}
 	}
 </style>
