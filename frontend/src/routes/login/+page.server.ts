@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, type Cookies } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 const importJwt = () => import('jsonwebtoken');
 import { session } from '../session';
@@ -6,7 +6,7 @@ import { getCookie } from 'typescript-cookie';
 
 const API_URL = process.env.API_URL;
 
-export async function load({ cookies }) {
+export async function load({ cookies }: any) {
 	const userString = cookies.get('user');
 	const sessionid = cookies.get('sessionid');
 	if (userString) {

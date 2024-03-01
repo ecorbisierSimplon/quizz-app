@@ -27,6 +27,7 @@
 	<title>QuizzOmnes | Create</title>
 	<meta name="description" content="QuizzOmnes" />
 </svelte:head>
+{form?.success}
 {#if $session}
 	<div class="main__title cloud-background">
 		<h1

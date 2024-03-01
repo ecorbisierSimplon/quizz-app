@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { onMount } from 'svelte';
+	// import { enhance } from '$app/forms';
+	// import { onMount } from 'svelte';
 	import { quizzTitleColor, handleColorChange } from './question';
 	import { sessionKey } from '../session';
 
@@ -45,73 +45,78 @@
 	};
 </script>
 
-<form method="POST" action="/create_quizz?/create">
-	<input name="session" bind:value={$sessionKey} hidden />
-	<div class="title">
-		<div>
-			<input
-				bind:value={quizzTitle}
-				id="quizzTitle"
-				name="text"
-				type="text"
-				class="form-control"
-				required
-			/>
-			<label for="quizzTitle" class="form-label"> Quizz Title </label>
-		</div>
-		<div class="add__img">
+{form?.success}
+{#if form?.success}
+	<span>{form?.text}</span>
+{:else}
+	<form method="POST" enctype="multipart/form-data" action="/create_quizz?/create">
+		<input name="session" bind:value={$sessionKey} hidden />
+		<div class="title">
 			<div>
 				<input
-					accept="image/*"
-					on:change={(event) => loadFile(event)}
-					bind:files
-					id="avatar"
-					name="image"
-					class="form-control input-file"
-					type="file"
+					bind:value={quizzTitle}
+					id="quizzTitle"
+					name="text"
+					type="text"
+					class="form-control"
+					required
 				/>
-				<label for={`avatar`} class="form-label label-file">
-					<i class="fas fa-image"></i> Upload a picture
-				</label>
+				<label for="quizzTitle" class="form-label"> Quizz Title </label>
 			</div>
-			<!-- svelte-ignore a11y-img-redundant-alt -->
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<img id="output" />
-		</div>
-		<div class="options">
-			<div class="options__duree">
-				<input id="duree" name="duration" type="number" min="0" max="600" class=" form-control" />
-				<label for="duree" class="form-label">
-					During by question<small>(in seconds ; 0 : infinite)</small></label
-				>
-			</div>
-			<div class="options__color">
+			<div class="add__img">
 				<div>
 					<input
-						bind:value={$quizzTitleColor}
-						id="color"
-						type="text"
-						class="options__color--decimal form-control"
-						required
+						accept="image/*"
+						bind:files
+						on:change={(event) => loadFile(event)}
+						id="avatar"
+						name="image"
+						class="form-control input-file"
+						type="file"
 					/>
-					<input
-						bind:value={$quizzTitleColor}
-						on:change={handleColorChange}
-						id="colorChoice"
-						type="color"
-						name="color"
-						class="options__color--choice"
-						required
-					/>
+					<label for={`avatar`} class="form-label label-file">
+						<i class="fas fa-image"></i> Upload a picture
+					</label>
 				</div>
-				<label for="colorChoice" class="form-label"> Quizz Color </label>
+				<!-- svelte-ignore a11y-img-redundant-alt -->
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<img id="output" />
+			</div>
+			<div class="options">
+				<div class="options__duree">
+					<input id="duree" name="duration" type="number" min="0" max="600" class=" form-control" />
+					<label for="duree" class="form-label">
+						During by question<small>(in seconds ; 0 : infinite)</small></label
+					>
+				</div>
+				<div class="options__color">
+					<div>
+						<input
+							bind:value={$quizzTitleColor}
+							id="color"
+							type="text"
+							class="options__color--decimal form-control"
+							required
+						/>
+						<input
+							bind:value={$quizzTitleColor}
+							on:change={handleColorChange}
+							id="colorChoice"
+							type="color"
+							name="color"
+							class="options__color--choice"
+							required
+						/>
+					</div>
+					<label for="colorChoice" class="form-label"> Quizz Color </label>
+				</div>
 			</div>
 		</div>
-	</div>
-	<button class="question__plus plus" type="submit" title="Add question !">
-		<i class="fas fa-plus"></i>
-	</button>
-</form>
+		<button class="question__plus plus" type="submit" title="Add question !">
+			<i class="fas fa-plus"></i>
+		</button>
+	</form>
+{/if}
 
 <style lang="scss">
 	#quizz {
